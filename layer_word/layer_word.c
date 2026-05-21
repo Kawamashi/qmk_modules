@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "layerword.h"
+#include "layer_word.h"
 
 
 static uint8_t layerword_layer = 0;
