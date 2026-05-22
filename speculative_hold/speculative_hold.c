@@ -4,6 +4,7 @@
 
 // Events bypass Speculative Hold when there are unsettled LT keys in
 // action_tapping's waiting_queue.
+static uint16_t settle_timer = 0;
 
 typedef struct {
   keypos_t key;
@@ -46,6 +47,11 @@ static void held_keys_del_index(int8_t i) {
   }
 }
 
+void housekeeping_task_speculative_hold(void) {
+  if (settle_timer && timer_expired(timer_read(), settle_timer)) {
+    settle_timer = 0;
+  }
+}
 
 static uint8_t unpack_mods(uint16_t keycode) {
   const uint8_t mods5 = QK_MOD_TAP_GET_MODS(keycode);
@@ -56,14 +62,20 @@ static uint8_t unpack_mods(uint16_t keycode) {
 bool pre_process_record_speculative_hold(uint16_t keycode, keyrecord_t* record) {
 
   // Ignore events other than MT press events.
-  if (record->event.pressed && IS_QK_MOD_TAP(keycode)) {
+  if (record->event.pressed && (IS_QK_MOD_TAP(keycode) || IS_QK_LAYER_TAP(keycode))) {
 
-    if (IS_KEYEVENT(record->event)) {
+    if (IS_QK_LAYER_TAP(keycode)) {
+      // If this is an LT key, track when it will settle.
+      const uint16_t term = GET_TAPPING_TERM(keycode, record);
+      const uint16_t now = timer_read();
+      if (!settle_timer || term > TIMER_DIFF_16(settle_timer, now)) { settle_timer = (now + term) | 1; }
+
+    } else if (IS_KEYEVENT(record->event)) {
       // If this is an MT key and not part of a combo...
       const keypos_t key = record->event.key;
       const uint8_t mods = unpack_mods(keycode);
 
-      if ((~(get_mods() | speculative_mods) & mods) != 0 && get_speculative_hold(keycode, record)) {
+      if (!settle_timer && (~(get_mods() | speculative_mods) & mods) != 0 && get_speculative_hold(keycode, record)) {
         // If the mods are not already applied and get_speculative_hold() is true, then apply mods speculatively.
 
         held_keys_add(key, mods);
@@ -104,9 +116,7 @@ bool process_record_speculative_hold(uint16_t keycode, keyrecord_t* record) {
   } else {  // Tap press event; cancel speculatively-held mod.
     uint8_t cleared_mods = 0;
 
-    if (i == -1) {
-      i = 0;
-    }
+    if (i == -1) { i = 0; }
 
     // Clear mods for the ith key and all keys that follow.
     for (int8_t j = num_held_keys - 1; j >= i; --j) {

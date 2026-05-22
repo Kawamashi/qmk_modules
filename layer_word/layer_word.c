@@ -22,7 +22,7 @@ static bool continue_layerword = false;
 
 static uint16_t idle_timer = 0;
 
-void housekeeping_task_layerword(void) {
+void housekeeping_task_layer_word(void) {
     if (layerword_layer != 0) {
         if (timer_expired(timer_read(), idle_timer)) { disable_layerword(layerword_layer); }
     }
@@ -73,7 +73,7 @@ bool process_layerword_triggers(uint16_t keycode, keyrecord_t *record) {
 }
 
 
-bool process_record_layerword(uint16_t keycode, keyrecord_t *record) {
+bool process_record_layer_word(uint16_t keycode, keyrecord_t *record) {
     // Handle the custom keycodes that go with this feature
     if (get_layerword_layer_from_trigger(keycode)) { return process_layerword_triggers(keycode, record); }
 
@@ -95,7 +95,7 @@ bool process_record_layerword(uint16_t keycode, keyrecord_t *record) {
             case QK_LAYER_TAP ... QK_LAYER_TAP_MAX:
                 // Earlier return if this has not been considered tapped yet
                 if (record->tap.count == 0) { return true; }
-                keycode = tap_hold_extractor(keycode);
+                keycode &= 0xff;
                 break;
         }
 

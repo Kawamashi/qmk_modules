@@ -17,11 +17,12 @@
 #pragma once
 
 #include "quantum.h"
-#include "kawamashi.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+bool is_tapping_sequence(uint16_t keycode);
 
 //void housekeeping_task_flow_tap(void);
 

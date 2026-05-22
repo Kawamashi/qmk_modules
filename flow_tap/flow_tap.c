@@ -47,7 +47,7 @@ bool pre_process_record_flow_tap(uint16_t keycode, keyrecord_t* record) {
 
   if (is_tap_hold_event(keycode, record, pos)) {
     // The event is on an MT or LT with a valid matrix position.
-    const uint16_t tap_keycode = tap_hold_extractor(keycode);
+    const uint16_t tap_keycode = keycode & 0xff;
 
     // Determine the key's index in the bit arrays.
     const uint16_t index = pos.row * MATRIX_COLS + pos.col;
@@ -56,7 +56,7 @@ bool pre_process_record_flow_tap(uint16_t keycode, keyrecord_t* record) {
 
     if (record->event.pressed) {  // On press.
 
-      if (IS_QK_MOD_TAP(keycode) && !settle_timer && get_idle_time() < TAP_INTERVAL) {
+      if (IS_QK_MOD_TAP(keycode) && !settle_timer && is_tapping_sequence(keycode)) {
         // Rewrite the event as a press of the tap keycode. This way, it
         // bypasses the usual action_tapping logic.
         record->keycode = tap_keycode;
@@ -84,3 +84,36 @@ bool pre_process_record_flow_tap(uint16_t keycode, keyrecord_t* record) {
   
   return true;
 }
+
+// By default, enable Tap Flow for Space, A-Z, or main alphas area punctuation.
+/* __attribute__((weak)) bool is_tap_flow_key(uint16_t keycode) {
+  switch (get_tap_keycode(keycode)) {
+    case KC_SPC:
+    case KC_A ... KC_Z:
+    case KC_DOT:
+    case KC_COMM:
+    case KC_SCLN:
+    case KC_SLSH:
+      return true;
+  }
+  return false;
+}
+
+__attribute__((weak)) uint16_t get_tap_flow_term(
+    uint16_t keycode, keyrecord_t* record, uint16_t prev_keycode) {
+  return get_tap_flow(keycode, record, prev_keycode);
+}
+
+// By default, enable filtering when both the tap-hold key and previous key
+// return true for `is_tap_flow_key()`.
+__attribute__((weak)) uint16_t get_tap_flow(
+    uint16_t keycode, keyrecord_t* record, uint16_t prev_keycode) {
+  if (is_tap_flow_key(keycode) && is_tap_flow_key(prev_keycode)) {
+    return g_tap_flow_term;
+  }
+  return 0;  // Disable Tap Flow.
+} */
+
+/* __attribute__((weak)) bool is_tapping_sequence(uint16_t keycode) {
+  //get_idle_time() < TAP_INTERVAL
+} */
