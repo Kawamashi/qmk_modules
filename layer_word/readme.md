@@ -123,7 +123,7 @@ bool should_continue_layerword(uint8_t layer, uint16_t keycode, keyrecord_t *rec
 
 Any other symbol from the layer will be processed, but the Layer Word will end and the layer will be deactivated afterwards.
 
-Layer Words have also a similar effet to Layer Lock. For instance, I access my Navigation layer with a Layer Tap key. On this layer, I have my `NAVWORD` key. When I press it, the navigation layer will stay on, even when the LT key is released. The layer will be deactivated when a word-breaking character is tapped. 
+Layer Words also have a similar effet to [Layer Lock](https://docs.qmk.fm/features/layer_lock#layer-lock). For instance, I access my Navigation layer with a Layer Tap key. On this layer, I have my `NAVWORD` key. When I press it, the navigation layer will stay on, even when the LT key is released. The layer will be deactivated when a word-breaking character is tapped. 
 
 Like Layer Lock, Layer Words prevent layer tap keys to 
 
