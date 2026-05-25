@@ -1,10 +1,10 @@
 ## Layer Word
 
-**Layer Word** is a concept similar to Caps Word, but applied to layers. When a Layer Word is enabled, the corresponding layer is activated, and stays active until the user types a word-breaking character. For example, the Layer Word bound to my number layer remains active as long as I type numeric symbols. The characters that allow each Layer Word to continue are defined by the user.
+**Layer Word** is a concept similar to Caps Word, but applied to layers. When a Layer Word is enabled, the appropriate layer is activated, and stays active until a word-breaking character is tapped. For example, the Layer Word related to my number layer remains active as long as I type numeric symbols. The keycodes that allow each Layer Word to continue are defined by the user.
 
 Only one Layer Word can be active at a time to avoid messing up with the layer stack. A timeout can also be defined, to automatically deactivate Layer Words after a period of keyboard inactivity.
 
-Setting up a Layer Word is very simple. First, in keymap.c, you need to define a custom keycode, for example, `NAVWORD`. Layer Word also works with layer-tap keys, allowing you to momentarily activate a layer on hold and triggering a layer word on tap. Then, you link these keycodes to layers:
+Setting up a Layer Word is very simple. First, in keymap.c, you need to define a custom keycode, for example, `NAVWORD`. Layer Word also works with layer-tap keys, allowing you to momentarily activate a layer on hold and triggering a layer word on tap. Then, simply link these keycodes to layers:
 
 
 [Layer Word](keyboards/splitkb/kyria/rev1/base/keymaps/Kawamashi/features/layerword.c) est un concept similaire à Caps Word, mais qui s’applique aux couches. Quand on active un Layer Word, on active la couche correspondante, et elle restera activée tant que l’utilisateur ne tape pas de caractère “word breaking”. Par exemple, le Layer Word lié à ma couche de nombres restera activé tant que je taperai des symboles numériques. Les caractères permettant de continuer chaque Layer Word sont à définir par l’utilisateur.
@@ -120,6 +120,12 @@ bool should_continue_layerword(uint8_t layer, uint16_t keycode, keyrecord_t *rec
   return false;
 }
 ```
+
+Any other symbol from the layer will be processed, but the Layer Word will end and the layer will be deactivated afterwards.
+
+Layer Words have also a similar effet to Layer Lock. For instance, I access my Navigation layer with a Layer Tap key. On this layer, I have my `NAVWORD` key. When I press it, the navigation layer will stay on, even when the LT key is released. The layer will be deactivated when a word-breaking character is tapped. 
+
+Like Layer Lock, Layer Words prevent layer tap keys to 
 
 Tout autre symbole de la couche sera saisi, mais le Layer Word se terminera et la couche sera désactivée quand la touche sera relâchée.  
 Le paramétrage de mes Layer Words se trouve [ici](https://github.com/Kawamashi/qmk_userspace/blob/main/keyboards/splitkb/kyria/rev1/base/keymaps/Kawamashi/word_conf.c).
