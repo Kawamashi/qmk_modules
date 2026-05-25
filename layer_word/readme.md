@@ -2,9 +2,9 @@
 
 **Layer Word** is a concept similar to Caps Word, but applied to layers. When a Layer Word is enabled, the corresponding layer is activated, and stays active until the user types a word-breaking character. For example, the Layer Word bound to my number layer remains active as long as I type numeric symbols. The characters that allow each Layer Word to continue are defined by the user.
 
-Only one Layer Word can be active at a time to avoid messing up with the layer stack. Layer Words can automatically deactivate after a period of keyboard inactivity.
+Only one Layer Word can be active at a time to avoid messing up with the layer stack. A timeout can also be defined, to automatically deactivate Layer Words after a period of keyboard inactivity.
 
-Setting up a Layer Word is very simple. First, in keymap.c, you need to define a custom keycode, for example, `NAVWORD`. Layer Word also works with layer-tap keys, allowing you to momentarily activate a layer on hold and triggering a layer word on tap. Then, you link these keycodes to layers. Layer Word's timeout can also be defined:
+Setting up a Layer Word is very simple. First, in keymap.c, you need to define a custom keycode, for example, `NAVWORD`. Layer Word also works with layer-tap keys, allowing you to momentarily activate a layer on hold and triggering a layer word on tap. Then, you link these keycodes to layers:
 
 
 [Layer Word](keyboards/splitkb/kyria/rev1/base/keymaps/Kawamashi/features/layerword.c) est un concept similaire à Caps Word, mais qui s’applique aux couches. Quand on active un Layer Word, on active la couche correspondante, et elle restera activée tant que l’utilisateur ne tape pas de caractère “word breaking”. Par exemple, le Layer Word lié à ma couche de nombres restera activé tant que je taperai des symboles numériques. Les caractères permettant de continuer chaque Layer Word sont à définir par l’utilisateur.
@@ -53,6 +53,7 @@ uint16_t layerword_exit_timeout(uint8_t layer) {
 }
 ```
 
+After that, configure which keys should continue Layer Words:
 Il ne reste plus qu’à définir les caractères qui continuent le Layer Word :
 
 ```c
