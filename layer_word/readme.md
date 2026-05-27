@@ -1,6 +1,14 @@
-## Layer Word
+# Layer Word
 
 **Layer Word** is similar in concept to Caps Word, but applied to layers. When a Layer Word is enabled, the matching layer is activated, and remains active until a word-breaking character is tapped. For example, the Layer Word related to my number layer remains active as long as I type numeric symbols. The keycodes that allow each Layer Word to continue are user-defined.
+
+Add the following to the list of modules in your `keymap.json` to enable this module:
+```json
+{
+    "modules": ["Kawamashi/layer_word"]
+}
+```
+&nbsp;</br>
 
 Setting up a Layer Word is very simple. First, in `keymap.c`, define a custom keycode you’ll use to initiate a Layer Word, for example, `NAVWORD`. Layer-tap keys can also be used as triggers, allowing you to momentarily activate a layer on hold and triggering a Layer Word on tap. Then, simply configure the function `layerword_layer_from_trigger` to bind these keycodes to layers: 
 
