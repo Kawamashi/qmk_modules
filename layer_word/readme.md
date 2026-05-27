@@ -1,6 +1,6 @@
 ## Layer Word
 
-**Layer Word** is a concept similar to Caps Word, but applied to layers. When a Layer Word is enabled, the appropriate layer is activated, and stays active until a word-breaking character is tapped. For example, the Layer Word related to my number layer remains active as long as I type numeric symbols. The keycodes that allow each Layer Word to continue are defined by the user.
+**Layer Word** is a concept similar to Caps Word, but applied to layers. When a Layer Word is enabled, the corresponding layer is activated, and stays active until a word-breaking character is tapped. For example, the Layer Word related to my number layer remains active as long as I type numeric symbols. The keycodes that allow each Layer Word to continue are defined by the user.
 
 Only one Layer Word can be active at a time to avoid messing up with the layer stack. A timeout can also be defined, to automatically deactivate Layer Words after a period of keyboard inactivity.
 
