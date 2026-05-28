@@ -34,7 +34,7 @@ uint8_t layerword_layer_from_trigger(uint16_t keycode) {
 }
 ```
 
-After that, configure which keys should continue Layer Words:
+After that, for each layer involving a Layer Word, define the keys that should continue it:
 
 ```c
 bool should_continue_layerword(uint8_t layer, uint16_t keycode, keyrecord_t *record) {
@@ -81,7 +81,7 @@ bool should_continue_layerword(uint8_t layer, uint16_t keycode, keyrecord_t *rec
 }
 ```
 
-Any other symbol from the layer will be processed, but the Layer Word will end and the layer will be deactivated afterwards.
+Any other symbol from the layer will be processed, but the Layer Word will end afterwards and the layer will be deactivated.
 
 The activation of a Layer Word automatically disables the other ones, to avoid messing up with the layer stack. A timeout can also be defined, to automatically deactivate Layer Words after a period of keyboard inactivity:
 
