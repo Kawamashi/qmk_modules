@@ -2,6 +2,9 @@
 
 **Layer Word** is similar in concept to Caps Word, but applied to layers. When a Layer Word is enabled, the matching layer is activated, and remains active until a word-breaking character is tapped. For example, the Layer Word related to my number layer remains active as long as I type numeric symbols. The keycodes that allow each Layer Word to continue are user-defined.
 
+&nbsp;</br>
+## Set up
+
 Add the following to the list of modules in your `keymap.json` to enable this module:
 ```json
 {
@@ -104,3 +107,13 @@ When a trigger is located on the layer to which it is linked, Layer Word prevent
 My Layer Words settings are located [here](https://github.com/Kawamashi/qmk_userspace/blob/2eda8743e5bc084ae41fbe80c64a765cb540efa8/users/Kawamashi/conf_words.c#L230).
 
 &nbsp;</br>
+## Functions
+You can manipulate Layer Word with these functions:
+
+
+| Function                    | Description                                  | 
+| --------------------------- | -------------------------------------------- | 
+| `get_layerword_layer()`     | Returns the layer of the active Layer Word   | 
+| `enable_layerword(layer)`   | Turns on the Layer Word of `layer`           | 
+| `disable_layerword(layer)`  | Turns off the Layer Word of `layer`          | 
+| `toggle_layerword(keycode)` | Toggles the Layer Word triggered by `keycode`|
