@@ -2,7 +2,7 @@
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -18,6 +18,10 @@
 
 #include "quantum.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* Idle timeout:
  *
  * Layerword can be configured to deactivate if the keyboard is idle
@@ -32,10 +36,10 @@ uint16_t layerword_exit_timeout(uint8_t layer);
 // Returns the active Layerword layer
 uint8_t get_layerword_layer(void);
 
-// Turns on Layerword
+// Turns Layerword on
 void enable_layerword(uint8_t layer);
 
-// Turns off Layerword
+// Turns Layerword off
 void disable_layerword(uint8_t layer);
 
 // Toggles Layerword
@@ -61,3 +65,7 @@ uint8_t get_layerword_layer_from_trigger(uint16_t keycode);
  * If you want to exit layer before key processing, call `disable_layerword()` before returning false.
 */
 bool should_continue_layerword(uint8_t layer, uint16_t keycode, keyrecord_t *record);
+
+#ifdef __cplusplus
+}
+#endif

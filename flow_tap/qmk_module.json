@@ -1,6 +1,6 @@
 {
     "module_name": "Flow Tap",
-    "maintainer": "kawamashi",
-    "license": "Apache-2.0",
+    "maintainer": "Kawamashi",
+    "license": "GPLv3",
     "url": "https://getreuer.info/posts/keyboards/tap-flow"
 }
