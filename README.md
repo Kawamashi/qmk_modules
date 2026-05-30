@@ -6,10 +6,10 @@ Each child directory is a separate module, and has instructions on how to add it
 
 | Module                                                                                            | Status                        |
 | ------------------------------------------------------------------------------------------------- | ----------------------------- | 
-| [Flow Tap](https://github.com/Kawamashi/qmk_modules/tree/main/flow_tap)                           | 2026-05-30 – Personnal module | 
+| [Flow Tap](https://github.com/Kawamashi/qmk_modules/tree/main/flow_tap)                           | 2026-05-30 – Personal module | 
 | [Layer Word](https://github.com/Kawamashi/qmk_modules/tree/main/layer_word)                       | 2026-05-30 – Published        | 
 | [One-Shots on Steroids](https://github.com/Kawamashi/qmk_modules/tree/main/oneshots_on_steroids)  | 2026-05-30 – WIP              | 
-| [Speculative Hold](https://github.com/Kawamashi/qmk_modules/tree/main/speculative_hold)           | 2026-05-30 – Personnal module |
+| [Speculative Hold](https://github.com/Kawamashi/qmk_modules/tree/main/speculative_hold)           | 2026-05-30 – Personal module |
 
 I'm no developer, my code is probably naive! 😅
 
