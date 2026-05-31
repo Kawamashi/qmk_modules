@@ -16,7 +16,7 @@ Add the following to the list of modules in your `keymap.json` to enable this mo
 Setting up a Layer Word is very simple. First, in `keymap.c`, define a custom keycode you’ll use to initiate a Layer Word, for example, `NAVWORD`. Layer-tap keys can also be used as triggers, allowing you to momentarily activate a layer on hold and triggering a Layer Word on tap. Then, simply configure the function `layerword_layer_from_trigger` to bind these keycodes to layers: 
 
 ```c
-// custom keycodes for NAVWORD
+// custom keycode for NAVWORD
 enum custom_keycodes {
   NAVWORD = SAFE_RANGE,
   // Other custom keycodes
