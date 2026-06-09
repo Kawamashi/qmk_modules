@@ -12,7 +12,7 @@ One-Shot on Steroids are *forgiving*: tap again a OSoS key to cancel it. An opti
 
 One-Shot on Steroids are *versatile*: a OSoS key can be used to activate a layer alongside one or several modifier(s). 
 
-One-Shot on Steroids are *customizable*: three optional behaviours can be activated (and possibly combined) to better suit your needs
+One-Shot on Steroids are *customizable*: three optional behaviours can be activated (and potentially combined) to better suit your needs.
 
 &nbsp;</br>
 ## Set up
