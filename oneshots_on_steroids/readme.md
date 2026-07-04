@@ -78,7 +78,7 @@ If the one-shot term is not defined, the Tapping Term is applied by default. For
 
 You can then add the following function to your `keymap.c` to customise the one-shot term for each key:
 ```c
-uint16_t get_oneshot_on_steroids_tapping_term(uint16_t keycode, keyrecord_t *record) {
+uint16_t get_oneshot_on_steroids_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case OS_SHFT:
             return OS_STEROIDS_TERM + 125;
@@ -92,4 +92,24 @@ uint16_t get_oneshot_on_steroids_tapping_term(uint16_t keycode, keyrecord_t *rec
 
 ### Different modifiers, different behaviours
 
+To prevent mouse interaction, One-Shot mods on Steroids using Shift or Ctrl stop sending their modifier(s) as soon as they are released. If the one-shot behaviour is triggered, the modifier will be sent alongside the other key. The output of this sequence is `A`:
+
+<img src="png/OSoS 5.png" width="600">
+
+For One-Shot mods on Steroids using neither Shift or Ctrl, the modifier is sent all the way. The output of this sequence is `GUI d`:
+
+<img src="png/OSoS 6.png" width="600">
+
+To modify these behaviours, you can add the following function to your `keymap.c`, and customise it:
+```c
+bool should_mod_be_held_after_oneshot_term(uint8_t mod, uint16_t trigger) {
+    // shift and ctrl shouldn't be held after the one-shot term,
+    // using `add_oneshot_mods()` instead, not to interfere with the mouse
+    if (mod & (MOD_MASK_CTRL | MOD_MASK_SHIFT)) { return false; }
+    return true;
+}
+```
+
+
+By default, sticky keys are activated on press until another key is pressed. You can enable the lazy setting to instead activate the sticky key right before the other key is pressed. This is useful for mouse interaction or situations where you don't want the host to see anything during a sticky-key timeout, for example &sk LGUI, which can trigger a menu if pressed alone.
 
