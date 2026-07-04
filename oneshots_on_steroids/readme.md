@@ -50,7 +50,10 @@ const oneshot_t oneshot[] = {
 ```
 Each line of this array must use the oneshot-type wrapper `OS(keycode, modifier, layer)`. The `modifier` field uses the `MOD_BIT()` macro, or `0` for layer-only oneshots. It’s the same for mods-only oneshots, with `0` in the `layer` field.
 
+&nbsp;</br>
 ## How One-Shots on Steroids work
+
+### One-Shot Term
 
 One-Shots on Steroids work simply: the modifier or the layer is sent as soon as you press the key, and as long as you hold it.
 
@@ -60,7 +63,13 @@ Therefore, the output of this sequence is `BA`:
 
 <img src="png/OSoS 1.png" width="600">
 
+If the one-shot is held for less time than the One-Shot Term, but a keycode is tapped in between, it behave like a regular modifier. The output of this sequence is `Ba`:
 
+<img src="png/OSoS 3.png" width="600">
+
+If the one-shot key is released before the One-Shot Term without another key having been pressed in between, then it behaves as a one‑shot key for the next keypress. The output of this sequence is `A`:
+
+<img src="png/OSoS 4.png" width="600">
 
 If the one-shot term is not defined, the Tapping Term is applied by default. For more granular control, you can add the following to your `config.h`:
 ```c
@@ -80,3 +89,7 @@ uint16_t get_oneshot_on_steroids_tapping_term(uint16_t keycode, keyrecord_t *rec
     }
 }
 ```
+
+### Different modifiers, different behaviours
+
+
