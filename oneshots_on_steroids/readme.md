@@ -54,6 +54,14 @@ Each line of this array must use the oneshot-type wrapper `OS(keycode, modifier,
 
 One-Shots on Steroids work simply: the modifier or the layer is sent as soon as you press the key, and as long as you hold it.
 
+<img src="png/OSoS 2.png" width="600">
+
+Therefore, the output of this sequence is `BA`:
+
+<img src="png/OSoS 1.png" width="600">
+
+
+
 If the one-shot term is not defined, the Tapping Term is applied by default. For more granular control, you can add the following to your `config.h`:
 ```c
 #define OS_STEROIDS_TERM_PER_KEY
