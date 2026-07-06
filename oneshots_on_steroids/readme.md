@@ -92,6 +92,8 @@ uint16_t get_oneshot_on_steroids_term(uint16_t keycode, keyrecord_t *record) {
 
 ### Different modifiers, different behaviours
 
+#### Modifiers to be held after the One-Shot Term
+
 To prevent mouse interaction, One-Shot mods on Steroids using Shift or Ctrl stop sending their modifier(s) as soon as they are released. If the one-shot behaviour is triggered, the modifier will be sent alongside the other key. The output of this sequence is `A`:
 
 <img src="png/OSoS 5.png" width="600">
@@ -110,6 +112,10 @@ bool should_mod_be_held_after_oneshot_term(uint8_t mod, uint16_t trigger) {
 }
 ```
 
+#### Solution to the problem of flashing modifiers  
 
-By default, sticky keys are activated on press until another key is pressed. You can enable the lazy setting to instead activate the sticky key right before the other key is pressed. This is useful for mouse interaction or situations where you don't want the host to see anything during a sticky-key timeout, for example &sk LGUI, which can trigger a menu if pressed alone.
+One-Shot Mods on Steroids involving GUI or left Alt might cause the “flashing modifiers” problem: using such modifiers without other keys may trigger application actions, like GUI opening the start menu when it is not desired. If you use One-Shot Mods on Steroids involving these modifiers, I strongly recommand that you define a `DUMMY_MOD_NEUTRALIZER_KEYCODE` in your `config.h` as a keycode to which no keyboard shortcuts are bound. This key will be sent in between the register and unregister events of a One-Shot on Steroids key. That way, the programs on your computer will no longer interpret the mod suppression induced by cancellation of a one‑shot as a lone tap of a modifier key and will thus not falsely trigger the undesired action.
 
+By default, only left Alt and left GUI are neutralized. If you want to change the list of mods requiring intervention, you may also define `MODS_TO_NEUTRALIZE`.
+
+You can find more information [here](https://docs.qmk.fm/features/key_overrides#neutralize-flashing-modifiers).
