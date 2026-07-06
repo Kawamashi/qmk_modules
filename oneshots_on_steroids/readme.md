@@ -14,6 +14,10 @@ One-Shot on Steroids are *nimble*: a OSoS key can be used to activate a layer al
 
 One-Shot on Steroids are *versatile*: three optional behaviours can be activated (and potentially combined) to better suit your needs.
 
+* [Set up](#Set-up)
+* [How One-Shots on Steroids work](#How-One-Shots-on-Steroids-work)
+
+
 &nbsp;</br>
 ## Set up
 
