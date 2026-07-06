@@ -131,6 +131,12 @@ You can find more information [here](https://docs.qmk.fm/features/key_overrides#
 
 ### One-Shot Layers freed from the layer stack
 
+Imagine you have a layer for symbols you can access with a layer-tap key, and a layer for numbers. Sometimes you want to use the symbol layer while inputting numbers, and sometimes you want to insert a number while inputting symbols. If the number layer index is lower than the symbol layer one, the latter use-case is impossible. 
+
+With the option `OS_STEROIDS_FREE_LAYER_STACK`, One-Shot Layer on Steroids disable the layer they coming from, not to be limited by the layer stack. This layer is reactivated as soon as the one-shot layer is deactivated. With this option, you can use a One-Shot Layer on Steroids on your symbol layer without need to worry about the layer stack anymore.
+
+### 
+
 ## Further customization
 is_oneshot_on_steroids_custom_behaviour
 should_oneshot_on_steroids_ignore_key
