@@ -18,7 +18,7 @@ One-Shot on Steroids are *versatile*: three optional behaviours can be activated
 * [How One-Shots on Steroids work](#How-One-Shots-on-Steroids-work)
 * [Further customization](#Further-customization)
 * [Optional behaviours](#Optional-behaviours)
-*     [Layer stack](#One-Shot-Layers-freed-from-the-layer-stack)
+* [Layer stack](#One-Shot-Layers-freed-from-the-layer-stack)
 
 
 &nbsp;</br>
