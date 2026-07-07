@@ -135,7 +135,7 @@ Imagine you have a layer for symbols you can access with a layer-tap key, and a 
 
 If you add `OS_STEROIDS_FREE_LAYER_STACK` to your `config.h`, One-Shot Layer on Steroids disable the layer they coming from, not to be limited by the layer stack. This layer is reactivated as soon as the one-shot layer is deactivated. With this option, you can use a One-Shot Layer on Steroids on your symbol layer without need to worry about the layer stack anymore.
 
-If you need further customization, 
+If you need further customization, you can add `OS_STEROIDS_FREE_LAYER_STACK_PER_KEY` to your `config.h`, and customize this function on your `keymap.c`:
 
 ```c
 bool should_oneshot_on_steroids_deactivate_layer(uint16_t keycode, uint8_t layer, keyrecord_t* record) {
@@ -149,7 +149,7 @@ bool should_oneshot_on_steroids_deactivate_layer(uint16_t keycode, uint8_t layer
 
 ### Mod-absorbing One-Shot Layers
 
-Imagine you have a navigation layer. Regularly, you use this layer while holding `GUI` for window‑management, which can be cumbersome. 
+Imagine you have a navigation layer. Regularly, you use this layer while holding `GUI` for window‑management, which can be cumbersome. If you add `OSL_STEROIDS_ABSORB_MODS` to your `config.h`, an ongoing modifier when triggering a One-Shot Layer on Steroids will be applied for the entire duration of the one-shot effect. 
 
 ## Further customization
 is_oneshot_on_steroids_custom_behaviour
