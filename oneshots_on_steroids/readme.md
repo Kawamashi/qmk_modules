@@ -70,11 +70,11 @@ Therefore, the output of this sequence is `BA`:
 
 <img src="png/OSoS 1.png" width="600">
 
-If the one-shot is held for less time than the One-Shot Term, but a keycode is tapped in between, it behave like a regular modifier. The output of this sequence is `Ba`:
+If the one-shot is held for less time than the One-Shot Term, but a keycode is tapped in between, it behave like a regular modifier. 
 
 <img src="png/OSoS 3.png" width="600">
 
-If the one-shot key is released before the One-Shot Term without another key having been pressed in between, then it behaves as a one‑shot key for the next keypress. The output of this sequence is `A`:
+If the one-shot key is released before the One-Shot Term without another key having been pressed in between, then it behaves as a one‑shot key for the next keypress. 
 
 <img src="png/OSoS 4.png" width="600">
 
@@ -101,11 +101,11 @@ uint16_t get_oneshot_on_steroids_term(uint16_t keycode, keyrecord_t *record) {
 
 #### Modifiers to be held after the One-Shot Term
 
-To prevent mouse interaction, One-Shot mods on Steroids using Shift or Ctrl stop sending their modifier(s) as soon as they are released. If the one-shot behaviour is triggered, the modifier will be sent alongside the other key. The output of this sequence is `A`:
+To prevent mouse interaction, One-Shot mods on Steroids using Shift and/or Ctrl stop sending their modifier(s) as soon as they are released. If the one-shot behaviour is triggered, the modifier will be sent alongside the other key. 
 
 <img src="png/OSoS 5.png" width="600">
 
-For One-Shot mods on Steroids using neither Shift or Ctrl, the modifier is sent all the way. The output of this sequence is `GUI d`:
+For One-Shot mods on Steroids using neither Shift or Ctrl, the modifier is sent all the way. 
 
 <img src="png/OSoS 6.png" width="600">
 
