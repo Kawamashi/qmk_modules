@@ -141,7 +141,7 @@ If the one-shot behaviour is triggered, the associated layer remains active unti
 
 <img src="png/OSoS 8.png" width="600">
 
-If the symbol layer is deactivated while the one-shot layer on steroids is active, the symbol layer won’t be reactivated.
+If the symbol layer is deactivated while the one-shot layer on steroids is active, it won’t be reactivated.
 
 <img src="png/OSoS 9.png" width="600">
 
