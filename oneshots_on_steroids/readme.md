@@ -137,9 +137,11 @@ If you add `OS_STEROIDS_FREE_LAYER_STACK` to your `config.h`, One-Shot Layer on 
 
 <img src="png/OSoS 7.png" width="600">
 
+If the one-shot behaviour is triggered, the associated layer remains active until another key is pressed, the symbol layer will be reactivated afterwards.
+
 <img src="png/OSoS 8.png" width="600">
 
-If the symbol layer is deactivated while the one-shot layer on steroids is active, the symbol layer won’t be reactivated afterwards.
+If the symbol layer is deactivated while the one-shot layer on steroids is active, the symbol layer won’t be reactivated.
 
 <img src="png/OSoS 9.png" width="600">
 
