@@ -135,6 +135,14 @@ Imagine you have a layer for symbols you can access with a layer-tap key, and a 
 
 If you add `OS_STEROIDS_FREE_LAYER_STACK` to your `config.h`, One-Shot Layer on Steroids disables the layer it comes from, not to be limited by the layer stack. This layer is reactivated as soon as the one-shot layer is deactivated. With this option, you can use a One-Shot Layer on Steroids on your symbol layer without need to worry about the layer stack anymore.
 
+<img src="png/OSoS 7.png" width="600">
+
+<img src="png/OSoS 8.png" width="600">
+
+If the symbol layer is deactivated while the one-shot layer on steroids is active, the symbol layer won’t be reactivated afterwards.
+
+<img src="png/OSoS 9.png" width="600">
+
 If you need further customization, you can add `OS_STEROIDS_FREE_LAYER_STACK_PER_KEY` to your `config.h`, and customize this function on your `keymap.c`:
 
 ```c
