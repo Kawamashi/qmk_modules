@@ -159,7 +159,29 @@ bool should_oneshot_on_steroids_deactivate_layer(uint16_t keycode, uint8_t layer
 
 ### Mod-absorbing One-Shot Layers
 
-Imagine you have a navigation layer. Regularly, you use this layer while holding `GUI` for window‑management, which can be cumbersome. If you add `OSL_STEROIDS_ABSORB_MODS` to your `config.h`, an ongoing modifier when triggering a One-Shot Layer on Steroids will be applied for the entire duration of the one-shot effect. 
+Imagine you have a navigation layer. Regularly, you use this layer while holding `GUI` for window‑management, which can be cumbersome. If you add `OSL_STEROIDS_ABSORB_MODS` to your `config.h`, an ongoing modifier when triggering a One-Shot Layer on Steroids will be applied as long as the layer is active. It works with a one-shot modifier (vanilla or on steroids):
+
+<img src="png/OSoS 10.png" width="600">
+
+It also works if a modifier (basic, mod-tap, one-shot, etc.) is held when the one-shot layer on steroids is tapped:
+
+<img src="png/OSoS 11.png" width="600">
+
+If a key is pressed before the modifier key is released, the modifier is considered having been used: therefore it’s deactivated as soon as it’s released.
+
+<img src="png/OSoS 12.png" width="600">
+
+If you need further customization, you can add and customize this function on your `keymap.c`:
+
+```c
+bool should_osl_on_steroids_absorb_mods(uint16_t keycode) {
+    switch (keycode) {
+
+        default:
+            return true;
+    }
+}
+```
 
 ## Further customization
 is_oneshot_on_steroids_custom_behaviour
