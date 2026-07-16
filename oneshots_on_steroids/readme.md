@@ -130,6 +130,11 @@ You can find more information [here](https://docs.qmk.fm/features/key_overrides#
 &nbsp;</br>
 ## Cancelling One-Shots on Steroids
 
+- tap again an OSoS
+- OSoS timeout / timeout per key
+- is_oneshot_on_steroids_cancel_key
+- different functions
+
 &nbsp;</br>
 ## Optional behaviours
 
