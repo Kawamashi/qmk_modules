@@ -2,8 +2,6 @@
 
 [WIP]
 
-## One-Shot on Steroids philosophy
-
 This is my attempt for one-shot keys that work as I think they should: the modifier or the layer is sent as soon as you press the key, and as long as you hold it. If the one-shot key is released before the One‑Shot Term without another key having been pressed in between, then it behaves as a one‑shot key for the next keypress.
 
 One-Shot on Steroids (OSoS) are *snappy*: the mod or layer is applied immediately on key down, without waiting for the tap-hold resolution like regular one-shot keys. For example, with mouse, using a OSoS Shift fells as natural as a regular shift key.
@@ -16,9 +14,10 @@ One-Shot on Steroids are *versatile*: three optional behaviours can be activated
 
 * [Set up](#Set-up)
 * [How One-Shots on Steroids work](#How-One-Shots-on-Steroids-work)
-* [Further customization](#Further-customization)
+* [Cancelling One-Shots on Steroids](#Cancelling-One-Shots-on-Steroids)
 * [Optional behaviours](#Optional-behaviours)
 * [Layer stack](#One-Shot-Layers-freed-from-the-layer-stack)
+* [Further customization](#Further-customization)
 
 
 &nbsp;</br>
@@ -127,6 +126,9 @@ One-Shot Mods on Steroids involving GUI or left Alt might cause the “flashing 
 By default, only left Alt and left GUI are neutralized. If you want to change the list of mods requiring intervention, you may also define `MODS_TO_NEUTRALIZE`.
 
 You can find more information [here](https://docs.qmk.fm/features/key_overrides#neutralize-flashing-modifiers).
+
+&nbsp;</br>
+## Cancelling One-Shots on Steroids
 
 &nbsp;</br>
 ## Optional behaviours
