@@ -127,7 +127,7 @@ By default, only left Alt and left GUI are neutralized. If you want to change th
 
 You can find more information [here](https://docs.qmk.fm/features/key_overrides#neutralize-flashing-modifiers).
 
-## Optionnal behaviours
+## Optional behaviours
 
 ### One-Shot Layers freed from the layer stack
 
