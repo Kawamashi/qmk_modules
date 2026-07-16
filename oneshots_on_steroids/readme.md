@@ -97,6 +97,7 @@ uint16_t get_oneshot_on_steroids_term(uint16_t keycode, keyrecord_t *record) {
 }
 ```
 
+&nbsp;</br>
 ### Different modifiers, different behaviours
 
 #### Modifiers to be held after the One-Shot Term
@@ -127,6 +128,7 @@ By default, only left Alt and left GUI are neutralized. If you want to change th
 
 You can find more information [here](https://docs.qmk.fm/features/key_overrides#neutralize-flashing-modifiers).
 
+&nbsp;</br>
 ## Optional behaviours
 
 ### One-Shot Layers freed from the layer stack
@@ -157,6 +159,7 @@ bool should_oneshot_on_steroids_deactivate_layer(uint16_t keycode, uint8_t layer
 }
 ```
 
+&nbsp;</br>
 ### Mod-absorbing One-Shot Layers
 
 Imagine you have a navigation layer. Regularly, you use this layer while holding `GUI` for window‑management, which can be cumbersome. If you add `OSL_STEROIDS_ABSORB_MODS` to your `config.h`, an ongoing modifier when triggering a One-Shot Layer on Steroids will be applied as long as the layer is active. It works with a one-shot modifier (vanilla or on steroids):
