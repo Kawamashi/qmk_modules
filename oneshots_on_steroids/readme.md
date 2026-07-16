@@ -167,7 +167,7 @@ It also works if a modifier (basic, mod-tap, one-shot, etc.) is held when the on
 
 <img src="png/OSoS 11.png" width="600">
 
-If a key is pressed before the modifier key is released, the modifier is considered having been used: therefore it’s deactivated as soon as it’s released.
+If a key is pressed before the modifier key is released, the modifier is considered to have been used: therefore it’s deactivated as soon as it’s released.
 
 <img src="png/OSoS 12.png" width="600">
 
