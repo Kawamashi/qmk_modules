@@ -4,7 +4,7 @@
 
 This is my take on one-shot keys, they work the way I think they should: the modifier or the layer is registered as soon as you press the key, and as long as you hold it. If the one-shot key is released before the One‑Shot Term without another key having been pressed in between, then it behaves as a one‑shot key for the next keypress.
 
-One-Shots on Steroids (OSoS) are *snappy*: the mod or layer is registered immediately on key down, without waiting for the tap-hold resolution like regular one-shot keys. For example, with mouse, using a OSoS Shift feels as natural as a regular shift key.
+One-Shots on Steroids (OSoS) are *snappy*: the mod or layer is registered immediately on key down, without waiting for the tap-hold resolution like regular one-shot keys. For example, with mouse, using a OSoS Shift key feels as natural as a regular shift key.
 
 One-Shots on Steroids are *forgiving*: tap a OSoS key again to cancel it. An optional timeout can also be defined, to automatically deactivate OSoS after a period of keyboard inactivity.
 
