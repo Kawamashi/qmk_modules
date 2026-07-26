@@ -202,6 +202,8 @@ If a key is pressed before the modifier key is released, the modifier is conside
 
 <img src="png/OSoS 12.png" width="600">
 
+To check if a modifier has been absorbed by a one-shot layer on steroids, you can use this function: `has_mod_been_absorbed_by_osl(mod)`
+
 If you need further customization, you can add the following function to your `keymap.c`, and modify it to suit your needs:
 
 ```c
@@ -296,12 +298,20 @@ If the function returns `false`, QMK’s processing will be stopped.
 
 &nbsp;</br>
 ## Functions
-You can manipulate Layer Word with these functions:
+You can manipulate One-Shot on Steroids with these functions:
 
 
-| Function                    | Description                                  | 
-| --------------------------- | -------------------------------------------- | 
-| `get_layerword_layer()`     | Returns the layer of the active Layer Word   | 
-| `enable_layerword(layer)`   | Turns on the Layer Word of `layer`           | 
-| `disable_layerword(layer)`  | Turns off the Layer Word of `layer`          | 
-| `toggle_layerword(keycode)` | Toggles the Layer Word triggered by `keycode`|
+| Function                                 | Description                                  | 
+| ---------------------------------------- | -------------------------------------------- | 
+| `cancel_oneshot_on_steroids(keycode)`    | Turns on the Layer Word of `layer`           |
+| `get_oneshot_on_steroids_state(keycode)` | Toggles the Layer Word triggered by `keycode`|
+| `get_oneshot_on_steroids_index(keycode)` | Turns on the Layer Word of `layer`           |
+| `get_oneshot_layer_on_steroids()`        | Toggles the Layer Word triggered by `keycode`|
+| `is_oneshot_on_steroids(keycode)`        | Turns on the Layer Word of `layer`           |
+| `is_oneshot_layer_on_steroids(keycode)`  | Toggles the Layer Word triggered by `keycode`|
+| `is_oneshot_mod_on_steroids(keycode)`    | Turns on the Layer Word of `layer`           |
+| `is_oneshot_layer_on_steroids_active()`  | Toggles the Layer Word triggered by `keycode`|
+| `clear_oneshots_on_steroids()`           | Turns on the Layer Word of `layer`           |
+| `reset_oneshot_layer_on_steroids()`      | Toggles the Layer Word triggered by `keycode`|
+| `del_oneshot_mods_on_steroids(mods)`     | Turns on the Layer Word of `layer`           |
+| `clear_oneshot_mods_on_steroids()`       | Toggles the Layer Word triggered by `keycode`|
