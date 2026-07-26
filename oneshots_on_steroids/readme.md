@@ -161,7 +161,7 @@ If you want a macro to cancel One-Shots on Steroids, you can use some [functions
 
 Imagine you have a layer for symbols you can access with a layer-tap key, and a layer for numbers. Sometimes you want to use the symbol layer while inputting numbers, and sometimes you want to insert a number while inputting symbols. If the number layer index is lower than the symbol layer one, the latter use-case is impossible. 
 
-If you add `OS_STEROIDS_FREE_LAYER_STACK` to your `config.h`, an OSoS layer key temporarily disables the layer it comes from, not to be limited by the layer stack. This layer is reactivated as soon as the one-shot layer is deactivated. With this option, you can use an OSoS layer key on your symbol layer without needing to worry about the layer stack anymore.
+If you define `OS_STEROIDS_FREE_LAYER_STACK` in your `config.h`, an OSoS layer key temporarily disables the layer it comes from, not to be limited by the layer stack. This layer is reactivated as soon as the one-shot layer is deactivated. With this option, you can use an OSoS layer key on your symbol layer without needing to worry about the layer stack anymore.
 
 <img src="png/OSoS 7.png" width="600">
 
@@ -175,7 +175,7 @@ If the symbol layer is deactivated while the one-shot layer on steroids is activ
 
 If you need further customization, you can add the following to your `config.h`:
 ```c
-OS_STEROIDS_FREE_LAYER_STACK_PER_KEY
+#define OS_STEROIDS_FREE_LAYER_STACK_PER_KEY
 ```
 Then, add the following function to your `keymap.c`, and modify it to suit your needs:
 ```c
@@ -191,7 +191,7 @@ bool should_oneshot_on_steroids_deactivate_layer(uint16_t keycode, uint8_t layer
 &nbsp;</br>
 ### Mod-absorbing One-Shot Layers
 
-Imagine you have a navigation layer. Using this layer while holding `GUI` for window‑management can be cumbersome. If you add `OSL_STEROIDS_ABSORB_MODS` to your `config.h`, an active modifier when triggering an OSoS layer key will be applied as long as the layer is active. It works with a one‑shot modifier (vanilla or OSoS):
+Imagine you have a navigation layer. Using this layer while holding `GUI` for window‑management can be cumbersome. If you define `OSL_STEROIDS_ABSORB_MODS` in your `config.h`, an active modifier when triggering an OSoS layer key will be applied as long as the layer is active. It works with a one‑shot modifier (vanilla or OSoS):
 
 <img src="png/OSoS 10.png" width="600">
 
@@ -222,7 +222,7 @@ bool should_osl_on_steroids_absorb_mods(uint16_t keycode) {
 
 When I developped One-Shots on Steroids, I spent a lot of time determining whether modifier keys, layer-changer keys, one-shot keys (vanilla or OSoS) should “consume” a one-shot on steroids. The default setting should be suitable for the vast majority of use cases. However, there is an exception: if you use an OSoS layer key to access OSoS modifier keys as Callum modifiers, add the following to your `config.h`:
 ```c
-OSM_SHOULD_LEAVE_OSL_LAYER
+#define OSM_SHOULD_LEAVE_OSL_LAYER
 ```
 
 If you need further customization, you can add the following function to your `keymap.c`, and modify it to suit your needs:
