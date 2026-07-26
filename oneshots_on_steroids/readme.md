@@ -301,17 +301,17 @@ If the function returns `false`, QMK’s processing will be stopped.
 You can manipulate One-Shot on Steroids with these functions:
 
 
-| Function                                 | Description                                  | 
-| ---------------------------------------- | -------------------------------------------- | 
-| `cancel_oneshot_on_steroids(keycode)`    | Turns on the Layer Word of `layer`           |
-| `get_oneshot_on_steroids_state(keycode)` | Toggles the Layer Word triggered by `keycode`|
-| `get_oneshot_on_steroids_index(keycode)` | Turns on the Layer Word of `layer`           |
-| `get_oneshot_layer_on_steroids()`        | Toggles the Layer Word triggered by `keycode`|
-| `is_oneshot_on_steroids(keycode)`        | Turns on the Layer Word of `layer`           |
-| `is_oneshot_layer_on_steroids(keycode)`  | Toggles the Layer Word triggered by `keycode`|
-| `is_oneshot_mod_on_steroids(keycode)`    | Turns on the Layer Word of `layer`           |
-| `is_oneshot_layer_on_steroids_active()`  | Toggles the Layer Word triggered by `keycode`|
-| `clear_oneshots_on_steroids()`           | Turns on the Layer Word of `layer`           |
-| `reset_oneshot_layer_on_steroids()`      | Toggles the Layer Word triggered by `keycode`|
-| `del_oneshot_mods_on_steroids(mods)`     | Turns on the Layer Word of `layer`           |
-| `clear_oneshot_mods_on_steroids()`       | Toggles the Layer Word triggered by `keycode`|
+| Function                                 | Description                                                                               | 
+| ---------------------------------------- | ----------------------------------------------------------------------------------------- | 
+| `cancel_oneshot_on_steroids(keycode)`    | Deactivates the one-shot on steroids triggered by `keycode`.                              |
+| `get_oneshot_on_steroids_state(keycode)` | If `keycode` is a one-shot on steroids key, returns its state. Otherwise, returns -1.     |
+| `get_oneshot_on_steroids_index(keycode)` | If `keycode` is a one-shot on steroids key, returns its index. Otherwise, returns -1.     |
+| `get_oneshot_layer_on_steroids()`        | If there is a one-shot layer on steroids active, returns the layer. Otherwise, returns 0. |
+| `is_oneshot_on_steroids(keycode)`        | Returns whether `keycode` is a one-shot on steroids.                                      |
+| `is_oneshot_layer_on_steroids(keycode)`  | Returns whether `keycode` is a one-shot layer on steroids.                                |
+| `is_oneshot_mod_on_steroids(keycode)`    | Returns whether `keycode` is a mod-only one-shots on steroids.                            |
+| `is_oneshot_layer_on_steroids_active()`  | Returns whether a one-shot layer on steroids is active.                                   |
+| `clear_oneshots_on_steroids()`           | Deactivates all one-shot on steroids.                                                     |
+| `reset_oneshot_layer_on_steroids()`      | Deactivates the active one-shot layer on steroids.                                        |
+| `del_oneshot_mods_on_steroids(mods)`     | Deactivates all one-shot on steroids involving `mods`.                                    |
+| `clear_oneshot_mods_on_steroids()`       | Deactivates all one-shot on steroids involving any modifier.                              |
