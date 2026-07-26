@@ -130,10 +130,28 @@ You can find more information [here](https://docs.qmk.fm/features/key_overrides#
 &nbsp;</br>
 ## Cancelling One-Shots on Steroids
 
-- tap again an OSoS
-- OSoS timeout / timeout per key
-- is_oneshot_on_steroids_cancel_key
-- different functions
+Cancelling One-Shot on Steroids is easy. First, a timeout can be defined in your `config.h`, to automatically deactivate one-shot keys after a period of keyboard inactivity:
+```c
+#define OS_STEROIDS_TIMEOUT 3000
+```
+If you activated a one-shot on steroids by mistake, just tap it another time to cancel it. 
+
+Some keys can be configured as *cancel keys*. For that, add the following to your `config.h`:
+```c
+OS_STEROIDS_CANCEL_KEY
+```
+Then, customize this function on your `keymap.c`:
+```c
+bool is_oneshot_on_steroids_cancel_key(uint16_t keycode) {
+    switch (keycode) {
+
+        default:
+            return false;
+    }
+}
+```
+
+There are also some functions to do the same thing using macros.
 
 &nbsp;</br>
 ## Optional behaviours
@@ -154,8 +172,11 @@ If the symbol layer is deactivated while the one-shot layer on steroids is activ
 
 <img src="png/OSoS 9.png" width="600">
 
-If you need further customization, you can add `OS_STEROIDS_FREE_LAYER_STACK_PER_KEY` to your `config.h`, and customize this function on your `keymap.c`:
-
+If you need further customization, you can add the following to your `config.h`:
+```c
+OS_STEROIDS_FREE_LAYER_STACK_PER_KEY
+```
+Then, customize this function on your `keymap.c`:
 ```c
 bool should_oneshot_on_steroids_deactivate_layer(uint16_t keycode, uint8_t layer, keyrecord_t* record) {
     switch (layer) {
