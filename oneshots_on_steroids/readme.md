@@ -32,7 +32,7 @@ Add the following to the list of modules in your `keymap.json` to enable this mo
 ```
 &nbsp;</br>
 
-First, in `config.h`, define how many One-Shot on Steroids keys you’ll use and the *one-shot term*:
+First, in `config.h`, define how many One-Shot on Steroids keys you’ll use and the One‑Shot Term:
 ```c
 #define OS_STEROIDS_COUNT 3
 #define OS_STEROIDS_TERM 200
