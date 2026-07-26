@@ -69,7 +69,7 @@ Therefore, the output of this sequence is `BA`:
 
 <img src="png/OSoS 1.png" width="600">
 
-If the one-shot is held for less time than the One-Shot Term, but a keycode is tapped in between, it behave like a regular modifier. 
+If the one-shot is held for less time than the One-Shot Term, but a keycode is tapped in between, it behaves like a regular modifier. 
 
 <img src="png/OSoS 3.png" width="600">
 
@@ -216,6 +216,7 @@ bool should_osl_on_steroids_absorb_mods(uint16_t keycode) {
 }
 ```
 
+&nbsp;</br>
 ## Other customization options
 
 When I developped One-Shot on Steroids, I spent lot of time determining whether modifiers keys, layer-changer keys, one-shot keys (vanilla or on steroids) should “consume” one-shot on steroids. The default setting should be suitable for the vast majority of use cases. However, there is an exception: if you use a OSoS layer key to access OSoS modifier keys as Callum mods, add the following to your `config.h`:
