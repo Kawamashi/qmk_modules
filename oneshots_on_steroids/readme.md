@@ -304,17 +304,17 @@ If the function returns `false`, QMK will stop processing the key event.
 You can manipulate One-Shot on Steroids with these functions:
 
 
-| Function                                 | Description                                                               | 
-| ---------------------------------------- | ------------------------------------------------------------------------- | 
-| `cancel_oneshot_on_steroids(keycode)`    | Deactivates the OSoS key triggered by `keycode`.                          |
+| Function                                 | Description                                                                | 
+| ---------------------------------------- | -------------------------------------------------------------------------- | 
+| `cancel_oneshot_on_steroids(keycode)`    | Deactivates the OSoS key triggered by `keycode`.                           |
 | `get_oneshot_on_steroids_state(keycode)` | If `keycode` is an OSoS key, returns its state. Otherwise, returns -1.     |
 | `get_oneshot_on_steroids_index(keycode)` | If `keycode` is an OSoS key, returns its index. Otherwise, returns -1.     |
-| `get_oneshot_layer_on_steroids()`        | If there is an OSoS layer active, returns the layer. Otherwise, returns 0. |
+| `get_oneshot_layer_on_steroids()`        | If there is an active OSoS layer, returns the layer. Otherwise, returns 0. |
 | `is_oneshot_on_steroids(keycode)`        | Returns whether `keycode` is an OSoS key.                                  |
 | `is_oneshot_layer_on_steroids(keycode)`  | Returns whether `keycode` is an OSoS layer key.                            |
-| `is_oneshot_mod_on_steroids(keycode)`    | Returns whether `keycode` is a modifier-only OSoS key.                    |
+| `is_oneshot_mod_on_steroids(keycode)`    | Returns whether `keycode` is a modifier-only OSoS key.                     |
 | `is_oneshot_layer_on_steroids_active()`  | Returns whether an OSoS layer is active.                                   |
-| `clear_oneshots_on_steroids()`           | Deactivates all OSoS keys.                                                |
-| `reset_oneshot_layer_on_steroids()`      | Deactivates the active OSoS layer.                                        |
-| `del_oneshot_mods_on_steroids(mods)`     | Deactivates all OSoS keys using `mods`.                                   |
-| `clear_oneshot_mods_on_steroids()`       | Deactivates all OSoS keys using any modifier.                             |
+| `clear_oneshots_on_steroids()`           | Deactivates all OSoS keys.                                                 |
+| `reset_oneshot_layer_on_steroids()`      | Deactivates the active OSoS layer key.                                     |
+| `del_oneshot_mods_on_steroids(mods)`     | Deactivates all OSoS keys using `mods`.                                    |
+| `clear_oneshot_mods_on_steroids()`       | Deactivates all OSoS keys using any modifier.                              |
