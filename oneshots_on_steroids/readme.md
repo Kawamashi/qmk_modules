@@ -1,5 +1,7 @@
 # One-Shots on Steroids
 
+*Highly customizable instant-activation one-shot keys for QMK*
+
 [WIP]
 
 This is my take on how one-shot keys should work: the modifier or the layer is activated as soon as you press the key, and as long as you hold it. If the one-shot key is released before the One‑Shot Term without another key having been pressed in between, then it behaves as a one‑shot key for the next keypress.
