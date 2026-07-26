@@ -10,12 +10,12 @@ One-Shot on Steroids keys are *forgiving*: tap an OSoS key again to cancel it. A
 
 One-Shot on Steroids keys are *flexible*: an OSoS key can be used to activate a layer alongside one or more modifiers. 
 
-One-Shot on Steroids keys are *versatile*: three optional behaviours can be activated (and potentially combined) to better suit your needs.
+One-Shot on Steroids keys are *versatile*: three optional behaviors can be activated (and potentially combined) to better suit your needs.
 
 * [Set up](#Set-up)
 * [How One-Shots on Steroids work](#How-One-Shots-on-Steroids-work)
 * [Cancelling One-Shots on Steroids](#Cancelling-One-Shots-on-Steroids)
-* [Optional behaviours](#Optional-behaviours)
+* [Optional behaviors](#Optional-behaviors)
 * [Layer stack](#One-Shot-Layers-freed-from-the-layer-stack)
 * [Other customization options](#Other-customization-options)
 * [Functions](#Functions)
@@ -49,10 +49,11 @@ enum custom_keycodes {
 };
 
 const oneshot_t oneshot[] = {
-  {OS(OS_SHFT, MOD_BIT(KC_LSFT),  0     )},
-  {OS(OS_NUMR, 0,                _NUMROW)},
-  {OS(OS_WNUM, MOD_BIT(KC_LGUI), _NUMROW)}
-}
+//{OS(trigger key, modifier,         layer  )}
+  {OS(OS_SHFT,     MOD_BIT(KC_LSFT), 0      )},
+  {OS(OS_NUMR,     0,                _NUMROW)},
+  {OS(OS_WNUM,     MOD_BIT(KC_LGUI), _NUMROW)}
+};
 ```
 Each line of this array must use the oneshot-type wrapper `OS(keycode, modifier, layer)`. The `modifier` field uses the `MOD_BIT()` macro, or `0` for layer-only oneshots. It’s the same for modifier-only oneshots, with `0` in the `layer` field.
 
@@ -82,7 +83,7 @@ If the One-Shot Term is not defined, the Tapping Term is applied by default. For
 #define OS_STEROIDS_TERM_PER_KEY
 ```
 
-You can then add the following function to your `keymap.c` to customise the one-shot term for each key:
+You can then add the following function to your `keymap.c` to customize the one-shot term for each key:
 ```c
 uint16_t get_oneshot_on_steroids_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
@@ -97,11 +98,11 @@ uint16_t get_oneshot_on_steroids_term(uint16_t keycode, keyrecord_t *record) {
 ```
 
 &nbsp;</br>
-### Different modifiers, different behaviours
+### Different modifiers, different behaviors
 
 #### Modifiers to be held after the One-Shot Term
 
-To prevent mouse interaction, OSoS modifiers using Shift and/or Ctrl unregister their modifier as soon as they are released. If the one-shot behaviour is triggered, the modifier will be sent alongside the other key. 
+To prevent mouse interaction, OSoS modifiers using Shift and/or Ctrl unregister their modifier as soon as they are released. If the one-shot behavior is triggered, the modifier will be sent alongside the other key. 
 
 <img src="png/OSoS 5.png" width="600">
 
@@ -109,7 +110,7 @@ For OSoS modifiers using neither Shift nor Ctrl, the modifier remains registered
 
 <img src="png/OSoS 6.png" width="600">
 
-To modify these behaviours, you can add the following function to your `keymap.c`, and customise it:
+To modify these behaviors, you can add the following function to your `keymap.c`, and customize it:
 ```c
 bool should_mod_be_held_after_oneshot_term(uint8_t mod, uint16_t trigger) {
     // shift and ctrl shouldn't be held after the one-shot term,
@@ -138,9 +139,9 @@ If you activate an OSoS key by mistake, just tap it again to cancel it.
 
 Some keys can be configured as *cancel keys*. For that, add the following to your `config.h`:
 ```c
-OS_STEROIDS_CANCEL_KEY
+#define OS_STEROIDS_CANCEL_KEY
 ```
-Then, add the following function to your `keymap.c`, and customise it:
+Then, add the following function to your `keymap.c`, and customize it:
 ```c
 bool is_oneshot_on_steroids_cancel_key(uint16_t keycode) {
     switch (keycode) {
@@ -154,7 +155,7 @@ bool is_oneshot_on_steroids_cancel_key(uint16_t keycode) {
 If you want a macro to cancel One-Shots on Steroids, you can use some [functions](#Functions) to do that.
 
 &nbsp;</br>
-## Optional behaviours
+## Optional behaviors
 
 ### One-Shot Layers freed from the layer stack
 
@@ -164,7 +165,7 @@ If you add `OS_STEROIDS_FREE_LAYER_STACK` to your `config.h`, an OSoS layer key 
 
 <img src="png/OSoS 7.png" width="600">
 
-If the one-shot behaviour is triggered, the associated layer remains active until another key is pressed, the symbol layer will be reactivated afterwards.
+If the one-shot behavior is triggered, the associated layer remains active until another key is pressed, the symbol layer will be reactivated afterwards.
 
 <img src="png/OSoS 8.png" width="600">
 
@@ -266,7 +267,7 @@ bool should_oneshot_on_steroids_ignore_key(uint16_t keycode, uint16_t oneshot, k
             // When using OSM as Callum mods, an OSL tapped before must be reset.
             if (is_oneshot_mod_on_steroids(keycode)) { return false; }
 #               endif  // OSM_SHOULD_LEAVE_OSL_LAYER
-            // Standard behaviour, like any mod key after an OSL
+            // Standard behavior, like any mod key after an OSL
             return true;
         } else {
             // one-shot is OSM on steroids
@@ -287,7 +288,7 @@ bool should_oneshot_on_steroids_ignore_key(uint16_t keycode, uint16_t oneshot, k
 
 If you want an OSoS key to have completely customized behavior, there is a callback called at the very beginning of the code, before the one‑shot logic is executed. For that, add the following function to your `keymap.c`, and modify it to suit your needs:
 ```c
-bool is_oneshot_on_steroids_custom_behaviour(uint16_t keycode, keyrecord_t* record) {
+bool is_oneshot_on_steroids_custom_behavior(uint16_t keycode, keyrecord_t* record) {
     switch (keycode) {
 
         default:
