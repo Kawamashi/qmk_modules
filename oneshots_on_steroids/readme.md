@@ -2,15 +2,15 @@
 
 [WIP]
 
-This is my attempt for one-shot keys that work as I think they should: the modifier or the layer is sent as soon as you press the key, and as long as you hold it. If the one-shot key is released before the One‑Shot Term without another key having been pressed in between, then it behaves as a one‑shot key for the next keypress.
+This is my take on one-shot keys, they work the way I think they should: the modifier or the layer is registered as soon as you press the key, and as long as you hold it. If the one-shot key is released before the One‑Shot Term without another key having been pressed in between, then it behaves as a one‑shot key for the next keypress.
 
-One-Shot on Steroids (OSoS) are *snappy*: the mod or layer is applied immediately on key down, without waiting for the tap-hold resolution like regular one-shot keys. For example, with mouse, using a OSoS Shift fells as natural as a regular shift key.
+One-Shots on Steroids (OSoS) are *snappy*: the mod or layer is registered immediately on key down, without waiting for the tap-hold resolution like regular one-shot keys. For example, with mouse, using a OSoS Shift feels as natural as a regular shift key.
 
-One-Shot on Steroids are *forgiving*: tap again a OSoS key to cancel it. An optional timeout can also be defined, to automatically deactivate OSoS after a period of keyboard inactivity.
+One-Shots on Steroids are *forgiving*: tap a OSoS key again to cancel it. An optional timeout can also be defined, to automatically deactivate OSoS after a period of keyboard inactivity.
 
-One-Shot on Steroids are *nimble*: a OSoS key can be used to activate a layer alongside one or several modifier(s). 
+One-Shots on Steroids are *nimble*: a OSoS key can be used to activate a layer alongside one or several modifier(s). 
 
-One-Shot on Steroids are *versatile*: three optional behaviours can be activated (and potentially combined) to better suit your needs.
+One-Shots on Steroids are *versatile*: three optional behaviours can be activated (and potentially combined) to better suit your needs.
 
 * [Set up](#Set-up)
 * [How One-Shots on Steroids work](#How-One-Shots-on-Steroids-work)
@@ -32,7 +32,7 @@ Add the following to the list of modules in your `keymap.json` to enable this mo
 ```
 &nbsp;</br>
 
-First, in `config.h`, declare the number of One-Shot on Steroids and the *one-shot term*:
+First, in `config.h`, define how many One-Shot on Steroids keys you’ll use and the *one-shot term*:
 ```c
 #define OS_STEROIDS_COUNT 3
 #define OS_STEROIDS_TERM 200
@@ -61,7 +61,7 @@ Each line of this array must use the oneshot-type wrapper `OS(keycode, modifier,
 
 ### One-Shot Term
 
-One-Shots on Steroids work simply: the modifier or the layer is sent as soon as you press the key, and as long as you hold it.
+One-Shots on Steroids work simply: the modifier or the layer is registered as soon as you press the key, and remains active while the key is held.
 
 <img src="png/OSoS 2.png" width="600">
 
@@ -69,7 +69,7 @@ Therefore, the output of this sequence is `BA`:
 
 <img src="png/OSoS 1.png" width="600">
 
-If the one-shot is held for less time than the One-Shot Term, but a keycode is tapped in between, it behaves like a regular modifier. 
+If the key is released before the One-Shot Term, but a keycode is tapped in between, it behaves like a regular modifier. 
 
 <img src="png/OSoS 3.png" width="600">
 
@@ -101,7 +101,7 @@ uint16_t get_oneshot_on_steroids_term(uint16_t keycode, keyrecord_t *record) {
 
 #### Modifiers to be held after the One-Shot Term
 
-To prevent mouse interaction, One-Shot mods on Steroids using Shift and/or Ctrl stop sending their modifier(s) as soon as they are released. If the one-shot behaviour is triggered, the modifier will be sent alongside the other key. 
+To prevent mouse interaction, One-Shot mods on Steroids using Shift and/or Ctrl unregister their modifier(s) as soon as they are released. If the one-shot behaviour is triggered, the modifier will be sent alongside the other key. 
 
 <img src="png/OSoS 5.png" width="600">
 
@@ -121,7 +121,7 @@ bool should_mod_be_held_after_oneshot_term(uint8_t mod, uint16_t trigger) {
 
 #### Solution to the problem of flashing modifiers  
 
-One-Shot Mods on Steroids involving GUI or left Alt might cause the “flashing modifiers” problem: using such modifiers without other keys may trigger application actions, like GUI opening the start menu when it is not desired. If you use One-Shot Mods on Steroids involving these modifiers, I strongly recommand that you define a `DUMMY_MOD_NEUTRALIZER_KEYCODE` in your `config.h` as a keycode to which no keyboard shortcuts are bound. This key will be sent in between the register and unregister events of a One-Shot on Steroids key. That way, the programs on your computer will no longer interpret the mod suppression induced by cancellation of a one‑shot as a lone tap of a modifier key and will thus not falsely trigger the undesired action.
+One-Shot Mods on Steroids involving GUI or left Alt might cause the “flashing modifiers” problem: using such modifiers without other keys may trigger application or OS actions, like GUI opening the start menu when it is not desired. If you use One-Shot Mods on Steroids involving these modifiers, I strongly recommend that you define a `DUMMY_MOD_NEUTRALIZER_KEYCODE` in your `config.h` as a keycode to which no keyboard shortcuts are bound. This key will be sent in between the register and unregister events of a One-Shot on Steroids key. That way, the programs on your computer will no longer interpret the mod suppression induced by cancellation of a one‑shot as a lone tap of a modifier key and will thus not falsely trigger the undesired action.
 
 By default, only left Alt and left GUI are neutralized. If you want to change the list of mods requiring intervention, you may also define `MODS_TO_NEUTRALIZE`.
 
@@ -130,11 +130,11 @@ You can find more information [here](https://docs.qmk.fm/features/key_overrides#
 &nbsp;</br>
 ## Cancelling One-Shots on Steroids
 
-Cancelling One-Shot on Steroids is easy. First, a timeout can be defined in your `config.h`, to automatically deactivate one-shot keys after a period of keyboard inactivity:
+Cancelling a one-shot on steroids is easy. First, a timeout can be defined in your `config.h`, to automatically deactivate one-shot keys after a period of keyboard inactivity:
 ```c
 #define OS_STEROIDS_TIMEOUT 3000
 ```
-If you activated a one-shot on steroids by mistake, just tap it another time to cancel it. 
+If you activated a one-shot on steroids by mistake, just tap it again to cancel it. 
 
 Some keys can be configured as *cancel keys*. For that, add the following to your `config.h`:
 ```c
@@ -160,7 +160,7 @@ If you want a macro to cancel a one-shot on steroids, you can use some [function
 
 Imagine you have a layer for symbols you can access with a layer-tap key, and a layer for numbers. Sometimes you want to use the symbol layer while inputting numbers, and sometimes you want to insert a number while inputting symbols. If the number layer index is lower than the symbol layer one, the latter use-case is impossible. 
 
-If you add `OS_STEROIDS_FREE_LAYER_STACK` to your `config.h`, One-Shot Layer on Steroids disables the layer it comes from, not to be limited by the layer stack. This layer is reactivated as soon as the one-shot layer is deactivated. With this option, you can use a One-Shot Layer on Steroids on your symbol layer without need to worry about the layer stack anymore.
+If you add `OS_STEROIDS_FREE_LAYER_STACK` to your `config.h`, One-Shot Layer on Steroids disables the layer it comes from, not to be limited by the layer stack. This layer is reactivated as soon as the one-shot layer is deactivated. With this option, you can use a One-Shot Layer on Steroids on your symbol layer without needing to worry about the layer stack anymore.
 
 <img src="png/OSoS 7.png" width="600">
 
@@ -190,7 +190,7 @@ bool should_oneshot_on_steroids_deactivate_layer(uint16_t keycode, uint8_t layer
 &nbsp;</br>
 ### Mod-absorbing One-Shot Layers
 
-Imagine you have a navigation layer. Regularly, you use this layer while holding `GUI` for window‑management, which can be cumbersome. If you add `OSL_STEROIDS_ABSORB_MODS` to your `config.h`, an ongoing modifier when triggering a One-Shot Layer on Steroids will be applied as long as the layer is active. It works with a one-shot modifier (vanilla or on steroids):
+Imagine you have a navigation layer. Regularly, you use this layer while holding `GUI` for window‑management, which can be cumbersome. If you add `OSL_STEROIDS_ABSORB_MODS` to your `config.h`, an active modifier when triggering a One-Shot Layer on Steroids will be applied as long as the layer is active. It works with a one-shot modifier (vanilla or on steroids):
 
 <img src="png/OSoS 10.png" width="600">
 
@@ -219,7 +219,7 @@ bool should_osl_on_steroids_absorb_mods(uint16_t keycode) {
 &nbsp;</br>
 ## Other customization options
 
-When I developped One-Shot on Steroids, I spent lot of time determining whether modifiers keys, layer-changer keys, one-shot keys (vanilla or on steroids) should “consume” one-shot on steroids. The default setting should be suitable for the vast majority of use cases. However, there is an exception: if you use a OSoS layer key to access OSoS modifier keys as Callum mods, add the following to your `config.h`:
+When I developped One-Shot on Steroids, I spent a lot of time determining whether modifier keys, layer-changer keys, one-shot keys (vanilla or on steroids) should “consume” a one-shot on steroids. The default setting should be suitable for the vast majority of use cases. However, there is an exception: if you use a OSoS layer key to access OSoS modifier keys as Callum mods, add the following to your `config.h`:
 ```c
 OSM_SHOULD_LEAVE_OSL_LAYER
 ```
@@ -295,7 +295,7 @@ bool is_oneshot_on_steroids_custom_behaviour(uint16_t keycode, keyrecord_t* reco
     }
 }
 ```
-If the function returns `false`, QMK’s processing will be stopped.
+If the function returns `false`, QMK will stop processing the key event.
 
 &nbsp;</br>
 ## Functions
@@ -308,11 +308,11 @@ You can manipulate One-Shot on Steroids with these functions:
 | `get_oneshot_on_steroids_state(keycode)` | If `keycode` is a one-shot on steroids key, returns its state. Otherwise, returns -1.     |
 | `get_oneshot_on_steroids_index(keycode)` | If `keycode` is a one-shot on steroids key, returns its index. Otherwise, returns -1.     |
 | `get_oneshot_layer_on_steroids()`        | If there is a one-shot layer on steroids active, returns the layer. Otherwise, returns 0. |
-| `is_oneshot_on_steroids(keycode)`        | Returns whether `keycode` is a one-shot on steroids.                                      |
-| `is_oneshot_layer_on_steroids(keycode)`  | Returns whether `keycode` is a one-shot layer on steroids.                                |
-| `is_oneshot_mod_on_steroids(keycode)`    | Returns whether `keycode` is a mod-only one-shots on steroids.                            |
+| `is_oneshot_on_steroids(keycode)`        | Returns whether `keycode` is a one-shot on steroids key.                                  |
+| `is_oneshot_layer_on_steroids(keycode)`  | Returns whether `keycode` is a one-shot layer on steroids key.                            |
+| `is_oneshot_mod_on_steroids(keycode)`    | Returns whether `keycode` is a modifier-only one-shot on steroids key.                    |
 | `is_oneshot_layer_on_steroids_active()`  | Returns whether a one-shot layer on steroids is active.                                   |
 | `clear_oneshots_on_steroids()`           | Deactivates all one-shot on steroids.                                                     |
 | `reset_oneshot_layer_on_steroids()`      | Deactivates the active one-shot layer on steroids.                                        |
-| `del_oneshot_mods_on_steroids(mods)`     | Deactivates all one-shot on steroids involving `mods`.                                    |
-| `clear_oneshot_mods_on_steroids()`       | Deactivates all one-shot on steroids involving any modifier.                              |
+| `del_oneshot_mods_on_steroids(mods)`     | Deactivates all one-shot on steroids using `mods`.                                    |
+| `clear_oneshot_mods_on_steroids()`       | Deactivates all one-shot on steroids using any modifier.                              |
