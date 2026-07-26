@@ -18,7 +18,6 @@ One-Shot on Steroids keys are *versatile*: three optional behaviors can be activ
 * [How One-Shots on Steroids work](#How-One-Shots-on-Steroids-work)
 * [Cancelling One-Shots on Steroids](#Cancelling-One-Shots-on-Steroids)
 * [Optional behaviors](#Optional-behaviors)
-* [Layer stack](#One-Shot-Layers-freed-from-the-layer-stack)
 * [Other customization options](#Other-customization-options)
 * [Functions](#Functions)
 
