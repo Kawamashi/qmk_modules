@@ -18,6 +18,7 @@ One-Shot on Steroids are *versatile*: three optional behaviours can be activated
 * [Optional behaviours](#Optional-behaviours)
 * [Layer stack](#One-Shot-Layers-freed-from-the-layer-stack)
 * [Other customization options](#Other-customization-options)
+* [Functions](#Functions)
 
 
 &nbsp;</br>
@@ -139,7 +140,7 @@ Some keys can be configured as *cancel keys*. For that, add the following to you
 ```c
 OS_STEROIDS_CANCEL_KEY
 ```
-Then, customize this function on your `keymap.c`:
+Then, add the following function to your `keymap.c`, and customise it:
 ```c
 bool is_oneshot_on_steroids_cancel_key(uint16_t keycode) {
     switch (keycode) {
@@ -150,7 +151,7 @@ bool is_oneshot_on_steroids_cancel_key(uint16_t keycode) {
 }
 ```
 
-There are also some functions to do the same thing using macros.
+If you want a macro to cancel a one-shot on steroids, you can use some [functions](#Functions) to do that.
 
 &nbsp;</br>
 ## Optional behaviours
@@ -175,7 +176,7 @@ If you need further customization, you can add the following to your `config.h`:
 ```c
 OS_STEROIDS_FREE_LAYER_STACK_PER_KEY
 ```
-Then, customize this function on your `keymap.c`:
+Then, add the following function to your `keymap.c`, and modify it to suit your needs:
 ```c
 bool should_oneshot_on_steroids_deactivate_layer(uint16_t keycode, uint8_t layer, keyrecord_t* record) {
     switch (layer) {
@@ -201,7 +202,7 @@ If a key is pressed before the modifier key is released, the modifier is conside
 
 <img src="png/OSoS 12.png" width="600">
 
-If you need further customization, you can add and customize this function on your `keymap.c`:
+If you need further customization, you can add the following function to your `keymap.c`, and modify it to suit your needs:
 
 ```c
 bool should_osl_on_steroids_absorb_mods(uint16_t keycode) {
@@ -220,7 +221,7 @@ When I developped One-Shot on Steroids, I spent lot of time determining whether 
 OSM_SHOULD_LEAVE_OSL_LAYER
 ```
 
-If you need further customization, you can add and customize this function on your `keymap.c`:
+If you need further customization, you can add the following function to your `keymap.c`, and modify it to suit your needs:
 
 ```c
 bool should_oneshot_on_steroids_ignore_key(uint16_t keycode, uint16_t oneshot, keyrecord_t* record) {
@@ -279,5 +280,28 @@ bool should_oneshot_on_steroids_ignore_key(uint16_t keycode, uint16_t oneshot, k
     return false;
 }
 ```
+&nbsp;</br>
 
-is_oneshot_on_steroids_custom_behaviour
+If you want a one-shot to have completely customized behavior, there is a callback called at the very beginning of the code, before the one‑shot logic is executed. For that, add the following function to your `keymap.c`, and modify it to suit your needs:
+```c
+bool is_oneshot_on_steroids_custom_behaviour(uint16_t keycode, keyrecord_t* record) {
+    switch (keycode) {
+
+        default:
+            return true;
+    }
+}
+```
+If the function returns `false`, QMK’s processing will be stopped.
+
+&nbsp;</br>
+## Functions
+You can manipulate Layer Word with these functions:
+
+
+| Function                    | Description                                  | 
+| --------------------------- | -------------------------------------------- | 
+| `get_layerword_layer()`     | Returns the layer of the active Layer Word   | 
+| `enable_layerword(layer)`   | Turns on the Layer Word of `layer`           | 
+| `disable_layerword(layer)`  | Turns off the Layer Word of `layer`          | 
+| `toggle_layerword(keycode)` | Toggles the Layer Word triggered by `keycode`|
