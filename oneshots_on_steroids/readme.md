@@ -31,11 +31,10 @@ Add the following to the list of modules in your `keymap.json` to enable this mo
 ```
 &nbsp;</br>
 
-First, in `config.h`, declare the number of One-Shot on Steroids, the one-shot term and the optional timeout:
+First, in `config.h`, declare the number of One-Shot on Steroids and the *one-shot term*:
 ```c
 #define OS_STEROIDS_COUNT 3
 #define OS_STEROIDS_TERM 200
-#define OS_STEROIDS_TIMEOUT 3000
 ```
 
 Then, in `keymap.c`, define custom keycodes you’ll use for One-Shot on Steroids and their specifications in the `oneshot` array:
