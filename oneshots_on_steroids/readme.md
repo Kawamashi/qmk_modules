@@ -17,7 +17,7 @@ One-Shot on Steroids are *versatile*: three optional behaviours can be activated
 * [Cancelling One-Shots on Steroids](#Cancelling-One-Shots-on-Steroids)
 * [Optional behaviours](#Optional-behaviours)
 * [Layer stack](#One-Shot-Layers-freed-from-the-layer-stack)
-* [Further customization](#Further-customization)
+* [Other customization options](#Other-customization-options)
 
 
 &nbsp;</br>
@@ -213,6 +213,71 @@ bool should_osl_on_steroids_absorb_mods(uint16_t keycode) {
 }
 ```
 
-## Further customization
+## Other customization options
+
+When I developped One-Shot on Steroids, I spent lot of time determining whether modifiers keys, layer-changer keys, one-shot keys (vanilla or on steroids) should “consume” one-shot on steroids. The default setting should be suitable for the vast majority of use cases. However, there is an exception: if you use a OSoS layer key to access OSoS modifier keys as Callum mods, add the following to your `config.h`:
+```c
+OSM_SHOULD_LEAVE_OSL_LAYER
+```
+
+If you need further customization, you can add and customize this function on your `keymap.c`:
+
+```c
+bool should_oneshot_on_steroids_ignore_key(uint16_t keycode, uint16_t oneshot, keyrecord_t* record) {
+
+    bool is_mod_key = is_oneshot_mod_on_steroids(keycode);
+    bool is_layer_key = is_oneshot_layer_on_steroids(keycode);
+
+    switch (keycode) {
+        // mod keys.
+        case QK_MOD_TAP ... QK_MOD_TAP_MAX:
+            if (record->tap.count) { break; }
+        case KC_LCTL ... KC_RGUI:
+        case KC_HYPR:
+        case KC_MEH:
+        case QK_ONE_SHOT_MOD ... QK_ONE_SHOT_MOD_MAX:
+            is_mod_key = true;
+            break;
+
+        // layer switch keys.
+        case QK_LAYER_TAP ... QK_LAYER_TAP_MAX:
+            if (record->tap.count) { break; }
+        case QK_LAYER_TAP_TOGGLE ... QK_LAYER_TAP_TOGGLE_MAX:
+        case QK_MOMENTARY ... QK_MOMENTARY_MAX:
+        case QK_ONE_SHOT_LAYER ... QK_ONE_SHOT_LAYER_MAX:
+        case QK_TO ... QK_TO_MAX:
+        case QK_TOGGLE_LAYER ... QK_TOGGLE_LAYER_MAX:
+        case QK_TRI_LAYER_LOWER ... QK_TRI_LAYER_UPPER:
+            is_layer_key = true;
+            break;
+    }
+
+    // Mod or layer-change key applied after one-shot on steroids
+    if (is_mod_key || is_layer_key) {
+        if (is_oneshot_layer_on_steroids(oneshot)) {
+            // If a layer-change key is pressed after an OSL, the OSL must be reset.
+            if (is_layer_key) { return false; }
+            // keycode is not a layer key, it’s a mod key.
+#               ifdef OSM_SHOULD_LEAVE_OSL_LAYER
+            // When using OSM as Callum mods, an OSL tapped before must be reset.
+            if (is_oneshot_mod_on_steroids(keycode)) { return false; }
+#               endif  // OSM_SHOULD_LEAVE_OSL_LAYER
+            // Standard behaviour, like any mod key after an OSL
+            return true;
+        } else {
+            // one-shot is OSM on steroids
+#               ifdef OSL_STEROIDS_ABSORB_MODS
+            if (is_oneshot_layer_on_steroids(keycode)) {
+                if (should_osl_on_steroids_absorb_mods(keycode)) { return false; }
+            }
+#               endif  // OSL_STEROIDS_ABSORB_MODS
+            // OSM on steroids should stay pressed
+            // whether keycode is a mod or a layer-change key.
+            return true;
+        }
+    }
+    return false;
+}
+```
+
 is_oneshot_on_steroids_custom_behaviour
-should_oneshot_on_steroids_ignore_key
