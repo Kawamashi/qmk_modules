@@ -236,6 +236,8 @@ const oneshot_t oneshot[] = {
     {OS(OS_WNUM,     LT_NUM,      MOD_BIT(KC_LGUI), _NUMROW  )},
 };
 ```
+<img src="png/OSoS 13.png" width="1100">
+
 On my navigation layer, I have `OS_WINM`, a OSoS layer key to activate my windows-management layer. I access the nav layer with `LT_NAV`, a thumb layer-tap key which is also used to hold the OSoS. This way:
 - To access the windows-management layer, I press `LT_NAV` then `OS_WINM`.
 - I can release `OS_WINM` any time, it doesn’t matter.
