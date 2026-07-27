@@ -22,7 +22,7 @@ One-Shot on Steroids keys are *versatile*: three optional behaviors can be activ
 * [Optional behaviors](#Optional-behaviors)
    * [One-Shot Layers freed from the layer stack](#One-shot-Layers-freed-from-the-layer-stack)
    * [Mod-absorbing One-Shot Layers](#Mod-absorbing-One-Shot-Layers)
-   * [Two keys for one-shot](#Two-keys-for-one-shot)
+   * [Two keys for One-Shot](#Two-keys-for-One-Shot)
 * [Other customization options](#Other-customization-options)
 * [Functions](#Functions)
 
@@ -224,7 +224,7 @@ bool should_osl_on_steroids_absorb_mods(uint16_t keycode) {
 ```
 
 &nbsp;</br>
-### Two keys for one-shot
+### Two keys for One-Shot
 *Inspired by [Lobre’s Shaka gesture](https://github.com/lobre/shaka34/blob/main/gesture/README.md)*
 
 Imagine you want to access your tertiary layers, such as function or media layers, with OSoS keys. There is no room for them on your base layer, so they will be on a secondary layer. But your secondary layers are pretty crowded too, leaving only less ergonomic positions. Holding keys outside of the home‑row can be tiring, so why not use another key instead ? Like the comfortable thumb key you’re already holding to access your secondary layer! If you can’t picture this use case, I strongly encourage you to read [Lobre’s write-up](https://github.com/lobre/shaka34/blob/main/gesture/README.md).
