@@ -238,11 +238,12 @@ const oneshot_t oneshot[] = {
 ```
 On my navigation layer, I have `OS_WINM`, a OSoS layer key to activate my windows-management layer. I access the nav layer with `LT_NAV`, a thumb layer-tap key which is also used to hold the OSoS. This way:
 - To access the windows-management layer, I press `LT_NAV` then `OS_WINM`.
-- To trigger the one-shot behavior, I release both keys, in any order, within the One-Shot Term.
-- To stay longer on the windows-management layer, I release `OS_WINM` while continuing to hold `LT_NAV`.
+- I can release `OS_WINM` any time, it doesn’t matter.
+- To trigger the one-shot behavior, I release `LT_NAV` within the One-Shot Term.
+- To stay longer on the windows-management layer, I continue to hold `LT_NAV`.
 - To go back to the base layer, I release `LT_NAV`.
 
-It’s possible to go back and forth between a secondary and a tertiary layer by placing the same OSoS layer key at the same spot on both layers. Pressing this key on the tertiary layer cancels the one-shot, therefore deactivating this layer.  
+It’s possible to go back and forth between a secondary and a tertiary layer by placing the same OSoS layer key at the same spot on both layers. Pressing this key on the tertiary layer cancels the OSoS, therefore deactivating the associated layer.  
 
 &nbsp;</br>
 ## Other customization options
