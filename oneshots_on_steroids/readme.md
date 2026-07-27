@@ -222,9 +222,9 @@ bool should_osl_on_steroids_absorb_mods(uint16_t keycode) {
 ### Two keys for one-shot
 *Inspired by [Lobre’s Shaka gesture](https://github.com/lobre/shaka34/blob/main/gesture/README.md)*
 
-Imagine you want to access your tertiary layers (for function or media keys for ex.) with OSoS keys. There is no room for them on your base layer, so they will be on a secondary layer. But your secondary layers are pretty crowded too, only non-premium spots remain. Holding keys outside of the home-row can be tiring, so why not holding another key instead ? Like the confortable thumb key you hold to access your secondary layer for instance ! If you can’t picture this use case, I strongly encourage you to read [Lobre’s write-up](https://github.com/lobre/shaka34/blob/main/gesture/README.md).
+Imagine you want to access your tertiary layers, such as function or media layers, with OSoS keys. There is no room for them on your base layer, so they will be on a secondary layer. But your secondary layers are pretty crowded too, leaving only less ergonomic positions. Holding keys outside of the home‑row can be tiring, so why not use another key instead ? Like the comfortable thumb key you’re already holding to access your secondary layer! If you can’t picture this use case, I strongly encourage you to read [Lobre’s write-up](https://github.com/lobre/shaka34/blob/main/gesture/README.md).
 
-Defining `OS_STEROIDS_HOLD_WITH_OTHER_KEY` in your `config.h` allows you to separate the key used to trigger the one-shot from the key held down to maintain the modifier or the layer of the one‑shot. The oneshot-type wrapper now use another parameter: `OS(trigger key, holding key, modifier, layer)`. You may have to modify existing OSoS array accordingly:
+Defining `OS_STEROIDS_HOLD_WITH_OTHER_KEY` in your `config.h` allows you to separate the key that triggers the one-shot from the key that keeps it active. The oneshot-type wrapper now uses another parameter: `OS(trigger key, holding key, modifier, layer)`. You may have to modify existing OSoS array accordingly:
 ```c
 const oneshot_t oneshot[] = {
  // {OS(trigger key, holding key, modifier,         layer  )}
@@ -240,12 +240,11 @@ const oneshot_t oneshot[] = {
 
 On my navigation layer, I have `OS_WINM`, a OSoS layer key to activate my windows-management layer. I access the nav layer with `LT_NAV`, a thumb layer-tap key which is also used to hold the OSoS. This way:
 - To access the windows-management layer, I press `LT_NAV` then `OS_WINM`.
-- I can release `OS_WINM` any time, it doesn’t matter.
-- To trigger the one-shot behavior, I release `LT_NAV` within the One-Shot Term.
-- To stay longer on the windows-management layer, I continue to hold `LT_NAV`.
-- To go back to the base layer, I release `LT_NAV`.
+- I can release `OS_WINM` at any time, it doesn’t matter.
+- To trigger the one-shot behavior, I release `LT_NAV` within the One-Shot Term. It deactivates the navigation layer. The windows‑management layer remains active until the next keypress.
+- To stay longer on the windows-management layer, I continue to hold `LT_NAV`. Releasing `LT_NAV` deactivates the navigation and the windows‑management layers. 
 
-It’s possible to go back and forth between a secondary and a tertiary layer by placing the same OSoS layer key at the same spot on both layers. Pressing this key on the tertiary layer cancels the OSoS, therefore deactivating the associated layer.  
+It’s possible to go back and forth between a secondary and a tertiary layer by placing the same OSoS layer key at the same spot on both layers. Pressing this key on the tertiary layer cancels the OSoS, thereby deactivating the associated layer.  
 
 &nbsp;</br>
 ## Other customization options
