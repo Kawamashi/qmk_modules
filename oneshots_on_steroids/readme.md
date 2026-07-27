@@ -244,7 +244,7 @@ On my navigation layer, I have `OS_WINM`, a OSoS layer key to activate my window
 - To trigger the one-shot behavior, I release `LT_NAV` within the One-Shot Term. It deactivates the navigation layer. The windows‑management layer remains active until the next keypress.
 - To stay longer on the windows-management layer, I continue to hold `LT_NAV`. Releasing `LT_NAV` deactivates the navigation and the windows‑management layers. 
 
-It’s possible to go back and forth between a secondary and a tertiary layer by placing the same OSoS layer key at the same spot on both layers. Pressing this key on the tertiary layer cancels the OSoS, thereby deactivating the associated layer.  
+It’s possible to go back and forth between a secondary and a tertiary layer by placing the same OSoS layer key at the same spot on both layers. Pressing this key on the tertiary layer cancels the OSoS, thereby deactivating the associated layer. If `LT_NAV` is still held, this brings you back to the navigation layer.
 
 &nbsp;</br>
 ## Other customization options
