@@ -2,8 +2,6 @@
 
 *Highly customizable instant-activation one-shot keys for QMK*
 
-[WIP]
-
 This is my take on how one-shot keys should work: the modifier or the layer is activated as soon as you press the key, and as long as you hold it. If the one-shot key is released before the One‑Shot Term without another key having been pressed in between, then it behaves as a one‑shot key for the next keypress.
 
 One-Shot on Steroids (OSoS) keys are *snappy*: the mod or layer is activated immediately on key down, without waiting for the tap-hold resolution like regular one-shot keys. For example, with mouse, using an OSoS Shift key feels just as natural as using a regular shift key.
