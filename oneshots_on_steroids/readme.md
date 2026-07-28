@@ -2,7 +2,7 @@
 
 *Highly customizable instant-activation one shot keys for QMK*
 
-This is my take on how one shot keys should work: the modifier or the layer is activated as soon as the key is pressed, and remains active while the key is held. If the one shot key is released before the One Shot Term without another key having been pressed in between, then the modifier or the layer remains active until the next keypress, after which it’s deactivated.
+This is my take on how one shot keys should work: the modifier or layer is activated as soon as the key is pressed, and remains active while the key is held. If the one shot key is released before the One Shot Term without another key having been pressed in between, then the modifier or the layer remains active until the next keypress, after which it’s deactivated.
 
 One Shot on Steroids (OSoS) keys are *snappy*: the mod or layer is activated immediately on key down, without waiting for the tap-hold resolution like regular one shot keys. For example, with mouse, using an OSoS Shift key feels just as natural as using a regular shift key.
 
@@ -225,7 +225,7 @@ bool should_osl_on_steroids_absorb_mods(uint16_t keycode) {
 ### Split Trigger and Hold Keys
 *Two keys for One Shot: inspired by [Lobre’s Shaka gesture](https://github.com/lobre/shaka34/blob/main/gesture/README.md)*
 
-Imagine you want to access your tertiary layers, such as function or media layers, with OSoS keys. There is no room for them on your base layer, so they will be on a secondary layer. But your secondary layers are pretty crowded too, leaving only less ergonomic key positions. Holding keys outside of the home‑row can be tiring, so why not use the comfortable thumb key you’re already holding to access that secondary layer ? If you can’t picture this use case, I strongly encourage you to read [Lobre’s write-up](https://github.com/lobre/shaka34/blob/main/gesture/README.md).
+Imagine you want to access your tertiary layers, such as function or media layers, with OSoS keys. There is no room for them on your base layer, so they will be on a secondary layer. But your secondary layers are pretty crowded too, leaving only less ergonomic key positions. Holding keys outside of the home‑row can be tiring, so why not use the comfortable thumb key you’re already holding to access the secondary layer ? If you can’t picture this use case, I strongly encourage you to read [Lobre’s write-up](https://github.com/lobre/shaka34/blob/main/gesture/README.md).
 
 Defining `OS_STEROIDS_SPLIT_TRIGGER_HOLD` in your `config.h` allows you to separate the key that triggers the one shot from the key that keeps it active. The one shot-type wrapper now uses another parameter: `OS(trigger key, holding key, modifier, layer)`. You may have to modify existing OSoS array accordingly:
 ```c
@@ -247,7 +247,7 @@ On my navigation layer, I have `OS_WINM`, a OSoS layer key to activate my window
 
 - To access the windows-management layer, I press `LT_NAV` then `OS_WINM`.
 - I can release `OS_WINM` at any time, it doesn’t matter.
-- To trigger the one shot behavior, I release `LT_NAV` within the One Shot Term. This deactivates the navigation layer. The windows‑management layer remains active until the next keypress, after which it’s deactivated.
+- To trigger the one shot behavior, I release `LT_NAV` within the One Shot Term. The navigation layer is deactivated, while the windows-management layer remains active until the next keypress.
 - To stay longer on the windows-management layer, I continue to hold `LT_NAV`. Releasing `LT_NAV` deactivates both the navigation and the windows‑management layers. 
 
 It’s possible to go back and forth between a secondary and a tertiary layer by placing the same OSoS layer key at the same position on both layers. Pressing this key on the tertiary layer cancels the OSoS, thereby deactivating the associated layer. If `LT_NAV` is still held, this brings you back to the navigation layer.
@@ -255,7 +255,7 @@ It’s possible to go back and forth between a secondary and a tertiary layer by
 &nbsp;</br>
 ## Other customization options
 
-When I developped One Shots on Steroids, I spent a lot of time determining whether modifier keys, layer-changer keys, one shot keys (vanilla or OSoS) should “consume” a one shot on steroids. The default setting should suit most use cases. However, there is an exception: if you use an OSoS layer key to access OSoS modifier keys as Callum modifiers, add the following to your `config.h`:
+When I developed One Shots on Steroids, I spent a lot of time determining whether modifier keys, layer-changer keys, one shot keys (vanilla or OSoS) should “consume” a one shot on steroids. The default setting should suit most use cases. However, there is an exception: if you use an OSoS layer key to access OSoS modifier keys as Callum modifiers, add the following to your `config.h`:
 ```c
 #define OSM_SHOULD_LEAVE_OSL_LAYER
 ```
