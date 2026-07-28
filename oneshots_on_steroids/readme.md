@@ -2,7 +2,7 @@
 
 *Highly customizable instant-activation one shot keys for QMK*
 
-This is my take on how one shot keys should work: the modifier or layer is activated as soon as the key is pressed, and remains active while the key is held. If the one shot key is released before the One Shot Term without another key having been pressed in between, then the modifier or the layer remains active until the next keypress, after which it’s deactivated.
+This is my take on how one shot keys should work: the modifier or layer is activated as soon as the key is pressed, and remains active while the key is held. If the one shot key is released before the One Shot Term without another key having been pressed in between, the modifier or layer remains active until the next keypress, after which it’s deactivated.
 
 One Shot on Steroids (OSoS) keys are *snappy*: the mod or layer is activated immediately on key down, without waiting for the tap-hold resolution like regular one shot keys. For example, with mouse, using an OSoS Shift key feels just as natural as using a regular shift key.
 
@@ -36,7 +36,7 @@ Add the following to the list of modules in your `keymap.json` to enable this mo
 ```
 &nbsp;</br>
 
-First, in `config.h`, define how many One Shot on Steroids keys you’ll use and the One Shot Term:
+First, in `config.h`, define how many One Shot on Steroids keys you’ll use and the One Shot Term (in milliseconds):
 ```c
 #define OS_STEROIDS_COUNT 3
 #define OS_STEROIDS_TERM 200
@@ -59,14 +59,14 @@ const oneshot_t oneshot[] = {
     {OS(OS_WNUM,     MOD_BIT(KC_LGUI), _NUMROW)}
 };
 ```
-Each line of this array must use the one shot-type wrapper `OS(keycode, modifier, layer)`. The `modifier` field uses the `MOD_BIT()` macro, or `0` for layer-only one shot keys. It’s the same for modifier-only one shot keys, with `0` in the `layer` field.
+Each entry of this array must use the one shot-type wrapper `OS(keycode, modifier, layer)`. The `modifier` field uses the `MOD_BIT()` macro, or `0` for layer-only one shot keys. For modifier-only one shot keys, simply use `0` for the `layer` field.
 
 &nbsp;</br>
 ## How One Shots on Steroids work
 
 ### One Shot Term
 
-One Shot on Steroids keys work simply: the modifier or the layer is activated as soon as you press the key, and remains active while the key is held.
+The modifier or layer is activated as soon as the OSoS key is pressed, and remains active while the key is held.
 
 <img src="png/OSoS 2.png" width="600">
 
@@ -74,11 +74,11 @@ Therefore, the output of this sequence is `BA`:
 
 <img src="png/OSoS 1.png" width="600">
 
-If the OSoS key is released before the One Shot Term, but a keycode is tapped in between, it behaves like a regular modifier. 
+If another key is pressed before the OSoS key is released, it behaves like a regular modifier:
 
 <img src="png/OSoS 3.png" width="600">
 
-If the OSoS key is released before the One Shot Term without another key having been pressed in between, then the modifier or the layer remains active until the next keypress, after which it’s deactivated. 
+Otherwise, if the OSoS key is released before the One Shot Term, the modifier or layer remains active until the next keypress, after which it’s deactivated:
 
 <img src="png/OSoS 4.png" width="600">
 
@@ -106,7 +106,7 @@ uint16_t get_oneshot_on_steroids_term(uint16_t keycode, keyrecord_t *record) {
 
 #### Modifiers to be held after the One Shot Term
 
-To prevent mouse interaction, OSoS modifiers using Shift and/or Ctrl unregister their modifier as soon as they are released. If the one shot behavior is triggered, the modifier will be sent alongside the other key. 
+To prevent mouse interaction, OSoS keys involving Shift and/or Ctrl unregister their modifier as soon as they are released. If the one shot behavior is triggered, the modifier will be sent alongside the other key. 
 
 <img src="png/OSoS 5.png" width="600">
 
@@ -126,26 +126,31 @@ bool should_mod_be_held_after_oneshot_term(uint8_t mod, uint16_t trigger) {
 
 #### Solution to the problem of flashing modifiers  
 
-OSoS modifiers involving GUI or left Alt might cause the “flashing modifiers” problem: using such modifiers without other keys may trigger application or OS actions, like GUI opening the start menu when it is not desired. If you use OSoS keys involving these modifiers, I strongly recommend that you define a `DUMMY_MOD_NEUTRALIZER_KEYCODE` in your `config.h` as a keycode to which no keyboard shortcuts are bound. This key will be sent in between the register and unregister events of an OSoS key. That way, the programs on your computer will no longer interpret the mod suppression induced by cancellation of a one shot as a lone tap of a modifier key and will thus not falsely trigger the undesired action.
+OSoS keys involving GUI or left Alt might cause the “flashing modifiers” problem: using such modifiers without other keys may trigger unwanted application or OS actions, like GUI opening the start menu. If you use OSoS keys involving these modifiers, I strongly recommend that you define a `DUMMY_MOD_NEUTRALIZER_KEYCODE` in your `config.h` as a keycode to which no keyboard shortcuts are bound. For example:
+```c
+#define DUMMY_MOD_NEUTRALIZER_KEYCODE KC_F18
+```
+This key will be sent in between the modifier register and unregister events of an OSoS key. This prevents programs from interpreting the modifier release as a lone modifier tap when a one shot is cancelled, avoiding unwanted OS or application actions.
 
 By default, only left Alt and left GUI are neutralized. If you want to change the list of modifiers requiring intervention, you may also define `MODS_TO_NEUTRALIZE`.
 
-You can find more information [here](https://docs.qmk.fm/features/key_overrides#neutralize-flashing-modifiers).
+More information can be found [here](https://docs.qmk.fm/features/key_overrides#neutralize-flashing-modifiers).
 
 &nbsp;</br>
 ## Cancelling One Shots on Steroids
 
-Cancelling One Shots on Steroids is easy. First, a timeout can be defined in your `config.h`, to automatically deactivate one shot keys after a period of keyboard inactivity:
+If you tapped an OSoS key by mistake, just tap it again to cancel it. 
+
+A timeout can be defined in `config.h` to automatically deactivate OSoS keys after a period of keyboard inactivity:
 ```c
 #define OS_STEROIDS_TIMEOUT 3000
 ```
-If you activate an OSoS key by mistake, just tap it again to cancel it. 
 
-Some keys can be configured as *cancel keys*. For that, add the following to your `config.h`:
+Some keys can be configured as *cancel keys*. To do so, add the following to your `config.h`:
 ```c
 #define OS_STEROIDS_CANCEL_KEY
 ```
-Then, add the following function to your `keymap.c`, and customize it:
+Then, add the following function to your `keymap.c`, and modify it to suit your needs:
 ```c
 bool is_oneshot_on_steroids_cancel_key(uint16_t keycode) {
     switch (keycode) {
@@ -195,15 +200,17 @@ bool should_oneshot_on_steroids_deactivate_layer(uint16_t keycode, uint8_t layer
 &nbsp;</br>
 ### Mod-absorbing One Shot Layers
 
-Imagine you have a navigation layer. Using this layer while holding `GUI` for window‑management can be cumbersome. If you define `OSL_STEROIDS_ABSORB_MODS` in your `config.h`, an active modifier when triggering an OSoS layer key will be applied as long as the layer is active. It works with a one shot modifier (vanilla or OSoS):
+Imagine you have a navigation layer. Using this layer while holding `GUI` for window‑management can be cumbersome. If you define `OSL_STEROIDS_ABSORB_MODS` in your `config.h`, an active modifier when pressing an OSoS layer key remains registered as long as the layer is active.
+
+It works with a one shot modifier (vanilla or OSoS):
 
 <img src="png/OSoS 10.png" width="600">
 
-It also works if a modifier (basic, mod-tap, one shot, etc.) is held when the OSoS layer key is tapped:
+It works when the OSoS layer key is pressed while a modifier (basic, mod-tap, one shot, etc.) is held:
 
 <img src="png/OSoS 11.png" width="600">
 
-If a key is pressed before the modifier key is released, the modifier is considered used: it’s deactivated as soon as the modifier key is released.
+If another key is pressed before the modifier key is released, the modifier is considered used: it’s deactivated as soon as the modifier key is released.
 
 <img src="png/OSoS 12.png" width="600">
 
@@ -292,7 +299,7 @@ bool should_oneshot_on_steroids_ignore_key(uint16_t keycode, uint16_t oneshot, k
             break;
     }
 
-    // Mod or layer-change key applied after one shot on steroids
+    // Mod or layer-change key pressed after an OSoS key
     if (is_mod_key || is_layer_key) {
         if (is_oneshot_layer_on_steroids(oneshot)) {
             // If a layer-change key is pressed after an OSL, the OSL must be reset.
