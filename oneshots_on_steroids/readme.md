@@ -12,6 +12,7 @@ One Shot on Steroids keys are *flexible*: an OSoS key can be used to activate a 
 
 One Shot on Steroids keys are *versatile*: three optional behaviors can be activated (and potentially combined) to better suit your needs.
 
+&nbsp;</br>
 * [Set up](#Set-up)
 * [How One Shots on Steroids work](#How-One-Shots-on-Steroids-work)
    * [One Shot Term](#One-Shot-Term)
