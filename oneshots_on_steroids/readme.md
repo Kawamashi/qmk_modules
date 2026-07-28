@@ -200,21 +200,21 @@ bool should_oneshot_on_steroids_deactivate_layer(uint16_t keycode, uint8_t layer
 &nbsp;</br>
 ### Mod-absorbing One Shot Layers
 
-Imagine you have a navigation layer. Using this layer while holding `GUI` for window‑management can be cumbersome. If you define `OSL_STEROIDS_ABSORB_MODS` in your `config.h`, an active modifier when pressing an OSoS layer key remains registered as long as the layer is active.
+Imagine you have a navigation layer. Using this layer while holding `GUI` for window‑management can be cumbersome. If you define `OSL_STEROIDS_ABSORB_MODS` in your `config.h`, an active modifier when an OSoS layer key is pressed remains registered as long as the layer is active.
 
-It works with a one shot modifier (vanilla or OSoS):
+OSoS layer keys absorb one shot modifiers tapped before (vanilla or OSoS):
 
 <img src="png/OSoS 10.png" width="600">
 
-It works when the OSoS layer key is pressed while a modifier (basic, mod-tap, one shot, etc.) is held:
+If an OSoS layer key is pressed while a modifier (basic, mod-tap, one shot, etc.) is held, it absorbs that modifier:
 
 <img src="png/OSoS 11.png" width="600">
 
-If another key is pressed before the modifier key is released, the modifier is considered used: it’s deactivated as soon as the modifier key is released.
+If another key is pressed before the modifier key is released, the modifier is considered used and is deactivated when released:
 
 <img src="png/OSoS 12.png" width="600">
 
-To check if a modifier has been absorbed by a one shot layer on steroids, you can use this function: `has_mod_been_absorbed_by_osl(mod)`
+To check if a modifier has been absorbed by a OSoS layer key, you can use this function: `has_mod_been_absorbed_by_osl(mod)`
 
 If you need further customization, you can add the following function to your `keymap.c`, and modify it to suit your needs:
 
@@ -328,7 +328,7 @@ bool should_oneshot_on_steroids_ignore_key(uint16_t keycode, uint16_t oneshot, k
 ```
 &nbsp;</br>
 
-If you want an OSoS key to have completely customized behavior, there is a callback called at the very beginning of the code, before the one shot logic is executed. For that, add the following function to your `keymap.c`, and modify it to suit your needs:
+If you want an OSoS key to have completely customized behavior, there is a callback called at the very beginning of the code, before the OSoS logic is executed. For that, add the following function to your `keymap.c`, and modify it to suit your needs:
 ```c
 bool is_oneshot_on_steroids_custom_behavior(uint16_t keycode, keyrecord_t* record) {
     switch (keycode) {
@@ -338,7 +338,7 @@ bool is_oneshot_on_steroids_custom_behavior(uint16_t keycode, keyrecord_t* recor
     }
 }
 ```
-If the function returns `false`, QMK will stop processing the key event.
+If the function returns `false`, QMK stops further processing, preventing the One Shot on Steroids behavior from being applied. 
 
 &nbsp;</br>
 ## Functions
