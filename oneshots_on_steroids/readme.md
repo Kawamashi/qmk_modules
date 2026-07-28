@@ -44,8 +44,8 @@ First, in `config.h`, define how many One Shot on Steroids keys you’ll use and
 
 Then, in `keymap.c`, define custom keycodes you’ll use for One Shot on Steroids keys and their specifications in the `oneshot` array:
 ```c
-// custom keycodes for OSoS
 enum custom_keycodes {
+    // Custom keycodes for OSoS
     OS_SHFT = SAFE_RANGE,
     OS_NUMR,
     OS_WNUM,
@@ -53,13 +53,13 @@ enum custom_keycodes {
 };
 
 const oneshot_t oneshot[] = {
- // {OS(trigger key, modifier,         layer  )}
-    {OS(OS_SHFT,     MOD_BIT(KC_LSFT), 0      )},
-    {OS(OS_NUMR,     0,                _NUMROW)},
-    {OS(OS_WNUM,     MOD_BIT(KC_LGUI), _NUMROW)}
+ // {OS(trigger key, modifier,         layer   )}
+    {OS(OS_SHFT,     MOD_BIT(KC_LSFT), 0       )},
+    {OS(OS_NUMR,     0,                _NUMBERS)},
+    {OS(OS_WNUM,     MOD_BIT(KC_LGUI), _NUMBERS)}
 };
 ```
-Each entry of this array must use the one shot-type wrapper `OS(keycode, modifier, layer)`. The `modifier` field uses the `MOD_BIT()` macro, or `0` for layer-only one shot keys. For modifier-only one shot keys, simply use `0` for the `layer` field.
+Each entry of this array must use the one shot-type wrapper `OS(keycode, modifier, layer)`. The `modifier` field uses the `MOD_BIT()` macro (not `MOD_xxx` constants), or `0` for layer-only one shot keys. For modifier-only one shot keys, simply use `0` for the `layer` field.
 
 &nbsp;</br>
 ## How One Shots on Steroids work
@@ -237,13 +237,13 @@ Imagine you want to access your tertiary layers, such as function or media layer
 Defining `OS_STEROIDS_SPLIT_TRIGGER_HOLD` in your `config.h` allows you to separate the key that triggers the one shot from the key that keeps it active. The one shot-type wrapper now uses another parameter: `OS(trigger key, holding key, modifier, layer)`. You may have to modify existing OSoS array accordingly:
 ```c
 const oneshot_t oneshot[] = {
- // {OS(trigger key, holding key, modifier,         layer  )}
+ // {OS(trigger key, holding key, modifier,         layer   )}
  // "Regular" OSoS keys: the trigger key and the holding key are the same
-    {OS(OS_SHFT,     OS_SHFT,     MOD_BIT(KC_LSFT), _BASE    )},
-    {OS(OS_NUMR,     OS_NUMR,     0,                _NUMROW  )},
+    {OS(OS_SHFT,     OS_SHFT,     MOD_BIT(KC_LSFT), 0       )},
+    {OS(OS_NUMR,     OS_NUMR,     0,                _NUMBERS)},
  // OSoS keys with a holding key different from the trigger key
-    {OS(OS_WINM,     LT_NAV,      0,                _FUNCAPPS)},
-    {OS(OS_WNUM,     LT_NUM,      MOD_BIT(KC_LGUI), _NUMROW  )},
+    {OS(OS_WINM,     LT_NAV,      0,                _WINMGMT)},
+    {OS(OS_WNUM,     LT_NUM,      MOD_BIT(KC_LGUI), _NUMBERS)},
 };
 ```
 
