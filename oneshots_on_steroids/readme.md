@@ -78,7 +78,11 @@ If another key is pressed before the OSoS key is released, it behaves like a reg
 
 <img src="png/OSoS 3.png" width="600">
 
-Otherwise, if the OSoS key is released before the One Shot Term, the modifier or layer remains active until the next keypress, after which it’s deactivated:
+if the OSoS key is released after the One Shot Term, it behaves like a regular modifier:
+
+<img src="png/OSoS 14.png" width="600">
+
+Otherwise, the modifier or layer remains active until the next keypress, after which it’s deactivated:
 
 <img src="png/OSoS 4.png" width="600">
 
