@@ -121,9 +121,10 @@ For OSoS modifiers using neither Shift nor Ctrl, the modifier remains registered
 
 To modify these behaviors, you can add the following function to your `keymap.c`, and customize it:
 ```c
-bool should_mod_be_held_after_oneshot_term(uint8_t mod, uint16_t trigger) {
-    // shift and ctrl shouldn't be held after the one shot term,
-    // using `add_oneshot_mods()` instead, not to interfere with the mouse
+bool should_mod_be_held_after_oneshot_release(uint8_t mod, uint16_t trigger) {
+    // Shift and Ctrl are not kept registered after the OSoS key is released,
+    // to avoid interfering with mouse usage. If the one shot behavior is triggered,
+    // `add_oneshot_mods()` is used instead.
     if (mod & (MOD_MASK_CTRL | MOD_MASK_SHIFT)) { return false; }
     return true;
 }
