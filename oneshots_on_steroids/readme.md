@@ -194,7 +194,7 @@ If you need further customization, you can add the following to your `config.h`:
 ```
 Then, add the following function to your `keymap.c`, and modify it to suit your needs:
 ```c
-bool should_oneshot_on_steroids_deactivate_layer(uint16_t keycode, uint8_t layer, keyrecord_t* record) {
+bool should_oneshot_on_steroids_deactivate_layer(uint16_t keycode, uint8_t layer) {
     switch (layer) {
 
         default:
