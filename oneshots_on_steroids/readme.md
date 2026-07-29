@@ -43,7 +43,7 @@ First, in `config.h`, define how many One Shot on Steroids keys you’ll use and
 #define OS_STEROIDS_TERM 200
 ```
 
-Then, in `keymap.c`, define custom keycodes you’ll use for One Shot on Steroids keys and their specifications in the `oneshot` array:
+Then, in `keymap.c`, define custom keycodes you’ll use for One Shot on Steroids keys and their specifications in the `oneshot_os` array:
 ```c
 enum custom_keycodes {
     // Custom keycodes for OSoS
