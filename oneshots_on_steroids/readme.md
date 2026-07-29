@@ -354,7 +354,6 @@ You can manipulate One Shot on Steroids with these functions:
 | ---------------------------------------- | -------------------------------------------------------------------------- | 
 | `cancel_oneshot_on_steroids(keycode)`    | Deactivates the OSoS key triggered by `keycode`.                           |
 | `get_oneshot_on_steroids_state(keycode)` | If `keycode` is an OSoS key, returns its state. Otherwise, returns -1.     |
-| `get_oneshot_on_steroids_index(keycode)` | If `keycode` is an OSoS key, returns its index. Otherwise, returns -1.     |
 | `get_oneshot_layer_on_steroids()`        | If there is an active OSoS layer, returns the layer. Otherwise, returns 0. |
 | `is_oneshot_on_steroids(keycode)`        | Returns whether `keycode` is an OSoS key.                                  |
 | `is_oneshot_layer_on_steroids(keycode)`  | Returns whether `keycode` is an OSoS layer key.                            |
