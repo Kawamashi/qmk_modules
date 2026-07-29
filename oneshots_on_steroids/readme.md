@@ -305,31 +305,30 @@ bool should_oneshot_on_steroids_ignore_key(uint16_t keycode, uint16_t oneshot, k
             break;
     }
 
+    if (!is_mod_key && !is_layer_key) { return false; }
+
     // Mod or layer-change key pressed after an OSoS key
-    if (is_mod_key || is_layer_key) {
-        if (is_oneshot_layer_on_steroids(oneshot)) {
-            // If a layer-change key is pressed after an OSL, the OSL must be reset.
-            if (is_layer_key) { return false; }
-            // keycode is not a layer key, it’s a mod key.
-#               ifdef OSM_SHOULD_LEAVE_OSL_LAYER
-            // When using OSM as Callum mods, an OSL tapped before must be reset.
-            if (is_oneshot_mod_on_steroids(keycode)) { return false; }
-#               endif  // OSM_SHOULD_LEAVE_OSL_LAYER
-            // Standard behavior, like any mod key after an OSL
-            return true;
-        } else {
-            // one shot is OSM on steroids
-#               ifdef OSL_STEROIDS_ABSORB_MODS
-            if (is_oneshot_layer_on_steroids(keycode)) {
-                if (should_osl_on_steroids_absorb_mods(keycode)) { return false; }
-            }
-#               endif  // OSL_STEROIDS_ABSORB_MODS
-            // OSM on steroids should stay pressed
-            // whether keycode is a mod or a layer-change key.
-            return true;
+    if (is_oneshot_layer_on_steroids(oneshot)) {
+        // If a layer-change key is pressed after an OSL, the OSL must be reset.
+        if (is_layer_key) { return false; }
+        // keycode is not a layer key, it’s a mod key.
+#           ifdef OSM_SHOULD_LEAVE_OSL_LAYER
+        // When using OSM as Callum mods, an OSL tapped before must be reset.
+        if (is_oneshot_mod_on_steroids(keycode)) { return false; }
+#           endif  // OSM_SHOULD_LEAVE_OSL_LAYER
+        // Standard behavior, like any mod key after an OSL
+        return true;
+    } else {
+        // one shot is OSM on steroids
+#           ifdef OSL_STEROIDS_ABSORB_MODS
+        if (is_oneshot_layer_on_steroids(keycode)) {
+            if (should_osl_on_steroids_absorb_mods(keycode)) { return false; }
         }
+#           endif  // OSL_STEROIDS_ABSORB_MODS
+        // OSM on steroids should stay pressed
+        // whether keycode is a mod or a layer-change key.
+        return true;
     }
-    return false;
 }
 ```
 &nbsp;</br>
