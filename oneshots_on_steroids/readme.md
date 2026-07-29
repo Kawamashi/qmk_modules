@@ -53,7 +53,7 @@ enum custom_keycodes {
     // Other custom keycodes
 };
 
-const oneshot_t oneshot[] = {
+const oneshot_on_steroids_t oneshot[] = {
  // {OS(trigger key, modifier,         layer   )}
     {OS(OS_SHFT,     MOD_BIT(KC_LSFT), 0       )},
     {OS(OS_NUMR,     0,                _NUMBERS)},
@@ -242,7 +242,7 @@ Imagine you want to access your tertiary layers, such as function or media layer
 
 Defining `OS_STEROIDS_SPLIT_TRIGGER_HOLD` in your `config.h` allows you to separate the key that triggers the one shot from the key that keeps it active. The one shot-type wrapper now uses another parameter: `OS(trigger key, holding key, modifier, layer)`. You may have to modify existing OSoS array accordingly:
 ```c
-const oneshot_t oneshot[] = {
+const oneshot_on_steroids_t oneshot[] = {
  // {OS(trigger key, holding key, modifier,         layer   )}
  // "Regular" OSoS keys: the trigger key and the holding key are the same
     {OS(OS_SHFT,     OS_SHFT,     MOD_BIT(KC_LSFT), 0       )},
@@ -352,13 +352,13 @@ You can manipulate One Shot on Steroids with these functions:
 
 | Function                                 | Description                                                                | 
 | ---------------------------------------- | -------------------------------------------------------------------------- | 
-| `cancel_oneshot_on_steroids(keycode)`    | Deactivates the OSoS key triggered by `keycode`.                           |
 | `get_oneshot_on_steroids_state(keycode)` | If `keycode` is an OSoS key, returns its state. Otherwise, returns -1.     |
 | `get_oneshot_layer_on_steroids()`        | If there is an active OSoS layer, returns the layer. Otherwise, returns 0. |
 | `is_oneshot_on_steroids(keycode)`        | Returns whether `keycode` is an OSoS key.                                  |
 | `is_oneshot_layer_on_steroids(keycode)`  | Returns whether `keycode` is an OSoS layer key.                            |
 | `is_oneshot_mod_on_steroids(keycode)`    | Returns whether `keycode` is a modifier-only OSoS key.                     |
 | `is_oneshot_layer_on_steroids_active()`  | Returns whether an OSoS layer is active.                                   |
+| `cancel_oneshot_on_steroids(keycode)`    | Deactivates the OSoS key triggered by `keycode`.                           |
 | `clear_oneshots_on_steroids()`           | Deactivates all OSoS keys.                                                 |
 | `reset_oneshot_layer_on_steroids()`      | Deactivates the active OSoS layer key.                                     |
 | `del_oneshot_mods_on_steroids(mods)`     | Deactivates all OSoS keys using `mods`.                                    |
