@@ -53,7 +53,7 @@ enum custom_keycodes {
     // Other custom keycodes
 };
 
-const oneshot_on_steroids_t oneshot[] = {
+const oneshot_on_steroids_t oneshot_os[] = {
  // {OS(trigger key, modifier,         layer   )}
     {OS(OS_SHFT,     MOD_BIT(KC_LSFT), 0       )},
     {OS(OS_NUMR,     0,                _NUMBERS)},
@@ -242,7 +242,7 @@ Imagine you want to access your tertiary layers, such as function or media layer
 
 Defining `OS_STEROIDS_SPLIT_TRIGGER_HOLD` in your `config.h` allows you to separate the key that triggers the one shot from the key that keeps it active. The one shot-type wrapper now uses another parameter: `OS(trigger key, holding key, modifier, layer)`. You may have to modify existing OSoS array accordingly:
 ```c
-const oneshot_on_steroids_t oneshot[] = {
+const oneshot_on_steroids_t oneshot_os[] = {
  // {OS(trigger key, holding key, modifier,         layer   )}
  // "Regular" OSoS keys: the trigger key and the holding key are the same
     {OS(OS_SHFT,     OS_SHFT,     MOD_BIT(KC_LSFT), 0       )},
