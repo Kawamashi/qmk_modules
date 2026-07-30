@@ -214,7 +214,7 @@ bool should_oneshot_on_steroids_deactivate_layer(uint16_t keycode, uint8_t layer
 &nbsp;</br>
 ### Mod-absorbing One Shot Layers
 
-Imagine you have a navigation layer. Using this layer while holding `GUI` for window‑management can be cumbersome. If you define `OSL_STEROIDS_ABSORB_MODS` in your `config.h`, an active modifier when an OSoS layer key is pressed remains registered as long as the layer is active.
+Imagine you have a navigation layer. Using this layer while holding `GUI` for window‑management can be cumbersome. If you define `OS_STEROIDS_ABSORB_MODS` in your `config.h`, an active modifier when an OSoS layer key is pressed remains registered as long as the layer is active.
 
 If an OSoS layer key is pressed after a one shot modifier (vanilla or OSoS), it absorbs that modifier:
 
@@ -328,11 +328,11 @@ bool should_oneshot_on_steroids_ignore_key(uint16_t keycode, uint16_t oneshot, k
         return true;
     } else {
         // one shot is OSM on steroids
-#           ifdef OSL_STEROIDS_ABSORB_MODS
+#           ifdef OS_STEROIDS_ABSORB_MODS
         if (is_oneshot_layer_on_steroids(keycode)) {
             if (should_osl_on_steroids_absorb_mods(keycode)) { return false; }
         }
-#           endif  // OSL_STEROIDS_ABSORB_MODS
+#           endif  // OS_STEROIDS_ABSORB_MODS
         // OSM on steroids should stay pressed
         // whether keycode is a mod or a layer-change key.
         return true;
