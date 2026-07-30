@@ -152,15 +152,18 @@ A timeout can be defined in `config.h` to automatically deactivate OSoS keys aft
 #define OS_STEROIDS_TIMEOUT 3000
 ```
 
-Some keys can be configured as *cancel keys*. To do so, add the following to your `config.h`:
+Some keys can be configured as *cancel keys*. When pressed, they immediately deactivate any active One Shot on Steroids. 
+To do so, add the following to your `config.h`:
 ```c
 #define OS_STEROIDS_CANCEL_KEY
 ```
-Then, add the following function to your `keymap.c`, and modify it to suit your needs:
+Then, add the following callback to your `keymap.c` to list cancel keys. In this example, `KC_ESC` and a custom keycode `CANCEL` are defined as cancel keys:
 ```c
 bool is_oneshot_on_steroids_cancel_key(uint16_t keycode) {
     switch (keycode) {
-
+        case KC_ESC:
+        case CANCEL:  // CANCEL is a custom keycode.
+            return true;
         default:
             return false;
     }
@@ -189,14 +192,19 @@ If the symbol layer is deactivated while the one shot layer on steroids is activ
 <img src="png/OSoS 9.png" width="600">
 
 If you need further customization, you can add the following to your `config.h`:
+
 ```c
 #define OS_STEROIDS_FREE_LAYER_STACK_PER_KEY
 ```
-Then, add the following function to your `keymap.c`, and modify it to suit your needs:
+
+Then, add the following function to your keymap.c, and modify it to suit your needs. In this example, the `_NUMBERS` layer can’t be deactivated by OSoS layer keys, and `OS_WNUM` doesn’t deactivate the layer it comes from:
 ```c
 bool should_oneshot_on_steroids_deactivate_layer(uint16_t keycode, uint8_t layer) {
-    switch (layer) {
+    if (layer == _NUMBERS) { return false; }
 
+    switch (keycode) {
+        case OS_WNUM:
+            return false;
         default:
             return true;
     }
