@@ -2,7 +2,7 @@
 
 *Highly customizable instant-activation one shot keys for QMK*
 
-This is my take on how one shot keys should work: the modifier or layer is activated as soon as the key is pressed, and remains active while the key is held. If the one shot key is released before the One Shot Term without another key having been pressed in between, the modifier or layer remains active until the next keypress, after which it’s deactivated.
+This is my take on how one shot keys should work: the modifier or layer is activated as soon as the key is pressed, and remains active while the key is held. If the one shot key is released before the One Shot Term without another key having been pressed in between, the modifier or layer remains active until the next key press, after which it’s deactivated.
 
 One Shot on Steroids (OSoS) keys are *snappy*: the mod or layer is activated immediately on key down, without waiting for the tap-hold resolution like regular one shot keys. For example, with mouse, using an OSoS Shift key feels just as natural as using a regular shift key.
 
@@ -83,7 +83,7 @@ if the OSoS key is released after the One Shot Term, it behaves like a regular m
 
 <img src="png/OSoS 14.png" width="600">
 
-Otherwise, the modifier or layer remains active until the next keypress, after which it’s deactivated:
+Otherwise, the modifier or layer remains active until the next key press, after which it’s deactivated:
 
 <img src="png/OSoS 4.png" width="600">
 
@@ -152,12 +152,8 @@ A timeout can be defined in `config.h` to automatically deactivate OSoS keys aft
 #define OS_STEROIDS_TIMEOUT 3000
 ```
 
-Some keys can be configured as *cancel keys*. When pressed, they immediately deactivate any active One Shot on Steroids. 
-To do so, add the following to your `config.h`:
-```c
-#define OS_STEROIDS_CANCEL_KEY
-```
-Then, add the following callback to your `keymap.c` to list cancel keys. In this example, `KC_ESC` and a custom keycode `CANCEL` are defined as cancel keys:
+Some keys can be configured as *cancel keys*. When pressed, they immediately deactivate any active One Shot on Steroids.  
+To do so, add the following callback to your `keymap.c`. In this example, `KC_ESC` and a custom keycode `CANCEL` are defined as cancel keys:
 ```c
 bool is_oneshot_on_steroids_cancel_key(uint16_t keycode) {
     switch (keycode) {
@@ -179,11 +175,11 @@ If you want a macro to cancel One Shots on Steroids, you can use some [functions
 
 Imagine you have a layer for symbols you can access with a layer-tap key, and a layer for numbers. Sometimes you want to use the symbol layer while inputting numbers, and sometimes you want to insert a number while inputting symbols. If the number layer index is lower than the symbol layer one, the latter use-case is impossible. 
 
-If you define `OS_STEROIDS_FREE_LAYER_STACK` in your `config.h`, an OSoS layer key temporarily disables the layer it comes from, not to be limited by the layer stack. This layer is reactivated as soon as the one shot layer is deactivated. With this option, you can use an OSoS layer key on your symbol layer without needing to worry about the layer stack anymore.
+An OSoS layer key can temporarily deactivate the layer it comes from, not to be limited by the layer stack. This layer is reactivated as soon as the one shot layer is deactivated. With this option, you can use an OSoS layer key on your symbol layer without needing to worry about the layer stack anymore.
 
 <img src="png/OSoS 7.png" width="600">
 
-If the one shot behavior is triggered, the associated layer remains active until the next keypress, the symbol layer will be reactivated afterwards.
+If the one shot behavior is triggered, the associated layer remains active until the next key press, the symbol layer will be reactivated afterwards.
 
 <img src="png/OSoS 8.png" width="600">
 
@@ -191,13 +187,12 @@ If the symbol layer is deactivated while the one shot layer on steroids is activ
 
 <img src="png/OSoS 9.png" width="600">
 
-If you need further customization, you can add the following to your `config.h`:
-
+To enable this behavior, add the following to your `config.h`:
 ```c
-#define OS_STEROIDS_FREE_LAYER_STACK_PER_KEY
+#define OS_STEROIDS_FREE_LAYER_STACK
 ```
 
-Then, add the following function to your keymap.c, and modify it to suit your needs. In this example, the `_NUMBERS` layer can’t be deactivated by OSoS layer keys, and `OS_WNUM` doesn’t deactivate the layer it comes from:
+If you need further customization, you can add the following function to your `keymap.c`, and modify it to suit your needs. In this example, the `_NUMBERS` layer can’t be deactivated by OSoS layer keys, and `OS_WNUM` doesn’t deactivate the layer it comes from:
 ```c
 bool should_oneshot_on_steroids_deactivate_layer(uint16_t keycode, uint8_t layer) {
     if (layer == _NUMBERS) { return false; }
@@ -268,7 +263,7 @@ On my navigation layer, I have `OS_WINM`, a OSoS layer key to activate my window
 
 - To access the windows-management layer, I press `LT_NAV` then `OS_WINM`.
 - I can release `OS_WINM` at any time, it doesn’t matter.
-- To trigger the one shot behavior, I release `LT_NAV` within the One Shot Term. The navigation layer is deactivated, while the windows-management layer remains active until the next keypress.
+- To trigger the one shot behavior, I release `LT_NAV` within the One Shot Term. The navigation layer is deactivated, while the windows-management layer remains active until the next key press.
 - To stay longer on the windows-management layer, I continue to hold `LT_NAV`. Releasing `LT_NAV` deactivates both the navigation and the windows‑management layers. 
 
 It’s possible to go back and forth between a secondary and a tertiary layer by placing the same OSoS layer key at the same position on both layers. Pressing this key on the tertiary layer cancels the OSoS, thereby deactivating the associated layer. If `LT_NAV` is still held, this brings you back to the navigation layer.
