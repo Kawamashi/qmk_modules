@@ -185,6 +185,8 @@ If you want a macro to cancel One Shots on Steroids, you can use some [functions
 
 Imagine you have a layer for symbols you can access with a layer-tap key, and a layer for numbers. Sometimes you want to use the symbol layer while inputting numbers, and sometimes you want to insert a number while inputting symbols. If the number layer index is lower than the symbol layer one, the latter use-case is impossible. 
 
+<img src="png/OSoS 15.png" width="600">
+
 An OSoS layer key can temporarily deactivate the layer it comes from, not to be limited by the layer stack. This layer is reactivated as soon as the one shot layer is deactivated. With this option, you can use an OSoS layer key on your symbol layer without needing to worry about the layer stack anymore.
 
 <img src="png/OSoS 7.png" width="600">
