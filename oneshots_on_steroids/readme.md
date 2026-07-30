@@ -147,7 +147,21 @@ A timeout can be defined in `config.h` to automatically deactivate OSoS keys aft
 ```c
 #define OS_STEROIDS_TIMEOUT 3000
 ```
+For more granular control, you can add the following callback to your `keymap.c` to customize the timeout for each OSoS key:
+```c
+uint16_t get_oneshot_on_steroids_timeout(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case OS_SHFT:
+            return OS_STEROIDS_TIMEOUT - 1000;
+        case OS_NUMR:
+            return 5000; 
+        default:
+            return OS_STEROIDS_TIMEOUT;
+    }
+}
+```
 
+&nbsp;</br>
 Some keys can be configured as *cancel keys*. When pressed, they immediately deactivate any active One Shot on Steroids.\
 To do so, add the following callback to your `keymap.c`. In this example, `KC_ESC` and a custom keycode `CANCEL` are defined as cancel keys:
 ```c
