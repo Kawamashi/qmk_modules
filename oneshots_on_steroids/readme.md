@@ -48,7 +48,7 @@ Then, in `keymap.c`, define custom keycodes you’ll use for One Shot on Steroid
 enum custom_keycodes {
     // Custom keycodes for OSoS
     OS_SHFT = SAFE_RANGE,
-    OS_NUMR,
+    OS_NUM,
     OS_WNUM,
     // Other custom keycodes
 };
@@ -56,7 +56,7 @@ enum custom_keycodes {
 const oneshot_on_steroids_t oneshot_os[] = {
  // {OS(trigger key, modifier,         layer   )}
     {OS(OS_SHFT,     MOD_BIT(KC_LSFT), 0       )},
-    {OS(OS_NUMR,     0,                _NUMBERS)},
+    {OS(OS_NUM,      0,                _NUMBERS)},
     {OS(OS_WNUM,     MOD_BIT(KC_LGUI), _NUMBERS)}
 };
 ```
@@ -94,7 +94,7 @@ uint16_t get_oneshot_on_steroids_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case OS_SHFT:
             return OS_STEROIDS_TERM + 125;
-        case OS_NUMR:
+        case OS_NUM:
             return 130;
         default:
             return OS_STEROIDS_TERM;
@@ -145,7 +145,7 @@ If you tapped an OSoS key by mistake, just tap it again to cancel it.
 
 A timeout can be defined in `config.h` to automatically deactivate OSoS keys after a period of keyboard inactivity:
 ```c
-#define OS_STEROIDS_TIMEOUT 3000
+#define OS_STEROIDS_TIMEOUT 3000    // 3 seconds
 ```
 For more granular control, you can add the following callback to your `keymap.c` to customize the timeout for each OSoS key:
 ```c
@@ -153,7 +153,7 @@ uint16_t get_oneshot_on_steroids_timeout(uint16_t keycode, keyrecord_t *record) 
     switch (keycode) {
         case OS_SHFT:
             return OS_STEROIDS_TIMEOUT - 1000;
-        case OS_NUMR:
+        case OS_NUM:
             return 5000; 
         default:
             return OS_STEROIDS_TIMEOUT;
@@ -202,16 +202,18 @@ To enable this behavior, add the following to your `config.h`:
 #define OS_STEROIDS_FREE_LAYER_STACK
 ```
 
-If you need further customization, you can add the following function to your `keymap.c`, and modify it to suit your needs. In this example, the `_NUMBERS` layer can’t be deactivated by OSoS layer keys, and `OS_WNUM` doesn’t deactivate the layer it comes from:
+For finer control, you can add the following callback to your `keymap.c`, You can customize the behavior based on the originating layer, the OSoS key being pressed, or both. 
+In this example, the `_NUMBERS` layer can’t be deactivated by OSoS layer keys, and `OS_WNUM` doesn’t deactivate the layer it comes from:
 ```c
 bool should_oneshot_on_steroids_deactivate_layer(uint16_t keycode, uint8_t layer) {
+    // Prevent _NUMBERS layer from being deactivated
     if (layer == _NUMBERS) { return false; }
 
     switch (keycode) {
-        case OS_WNUM:
-            return false;
+        case OS_WNUM:    
+            return false;    // OS_WNUM doesn't deactivate layers
         default:
-            return true;
+            return true;     // Other OSoS 
     }
 }
 ```
@@ -259,7 +261,7 @@ const oneshot_on_steroids_t oneshot_os[] = {
  // {OS(trigger key, holding key, modifier,         layer   )}
  // "Regular" OSoS keys: the trigger key and the holding key are the same
     {OS(OS_SHFT,     OS_SHFT,     MOD_BIT(KC_LSFT), 0       )},
-    {OS(OS_NUMR,     OS_NUMR,     0,                _NUMBERS)},
+    {OS(OS_NUM,      OS_NUM,      0,                _NUMBERS)},
  // OSoS keys with a holding key different from the trigger key
     {OS(OS_WINM,     LT_NAV,      0,                _WINMGMT)},
     {OS(OS_WNUM,     LT_NUM,      MOD_BIT(KC_LGUI), _NUMBERS)},
