@@ -87,12 +87,8 @@ Otherwise, the modifier or layer remains active until the next key press, after 
 
 <img src="png/OSoS 4.png" width="600">
 
-If the One Shot Term is not defined, the Tapping Term is applied by default. For more granular control, you can add the following to your `config.h`:
-```c
-#define OS_STEROIDS_TERM_PER_KEY
-```
-
-You can then add the following function to your `keymap.c` to customize the One Shot Term for each key:
+If the One Shot Term is not defined, the Tapping Term is applied by default.\
+For more granular control, you can add the following callback to your `keymap.c` to customize the One Shot Term for each key:
 ```c
 uint16_t get_oneshot_on_steroids_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
@@ -152,7 +148,7 @@ A timeout can be defined in `config.h` to automatically deactivate OSoS keys aft
 #define OS_STEROIDS_TIMEOUT 3000
 ```
 
-Some keys can be configured as *cancel keys*. When pressed, they immediately deactivate any active One Shot on Steroids.  
+Some keys can be configured as *cancel keys*. When pressed, they immediately deactivate any active One Shot on Steroids.\
 To do so, add the following callback to your `keymap.c`. In this example, `KC_ESC` and a custom keycode `CANCEL` are defined as cancel keys:
 ```c
 bool is_oneshot_on_steroids_cancel_key(uint16_t keycode) {
@@ -315,17 +311,17 @@ bool should_oneshot_on_steroids_ignore_key(uint16_t keycode, uint16_t oneshot, k
         // If a layer-change key is pressed after an OSL, the OSL must be reset.
         if (is_layer_key) { return false; }
         // keycode is not a layer key, it’s a mod key.
-#           ifdef OSM_SHOULD_LEAVE_OSL_LAYER
+#           ifdef OS_MOD_SHOULD_LEAVE_OS_LAYER
         // When using OSM as Callum mods, an OSL tapped before must be reset.
         if (is_oneshot_mod_on_steroids(keycode)) { return false; }
-#           endif  // OSM_SHOULD_LEAVE_OSL_LAYER
+#           endif  // OS_MOD_SHOULD_LEAVE_OS_LAYER
         // Standard behavior, like any mod key after an OSL
         return true;
     } else {
         // one shot is OSM on steroids
 #           ifdef OS_STEROIDS_ABSORB_MODS
         if (is_oneshot_layer_on_steroids(keycode)) {
-            if (should_osl_on_steroids_absorb_mods(keycode)) { return false; }
+            if (should_oneshot_on_steroids_absorb_mods(keycode)) { return false; }
         }
 #           endif  // OS_STEROIDS_ABSORB_MODS
         // OSM on steroids should stay pressed
