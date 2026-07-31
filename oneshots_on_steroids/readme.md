@@ -338,7 +338,7 @@ bool should_oneshot_on_steroids_ignore_key(uint16_t keycode, uint16_t oneshot, k
 }
 ```
 This callback determines whether a key press should be ignored by an active OSoS key. The default implementation handles modifier and layer keys (`MO`, `LM`, `TG`, `TO`, `TT`), Mod-Tap and Layer‑Tap keys, one shot keys, OSoS keys, etc.
-The default implementation is available [here](https://github.com/Kawamashi/qmk_modules/blob/4d9b9523715a07a5bf4a5168b589943bb8881dba/oneshots_on_steroids/oneshots_on_steroids.c#L28).
+The default implementation is available [here](oneshots_on_steroids.c#L546).
 
 &nbsp;</br>
 ### Complete custom behavior
