@@ -187,7 +187,7 @@ Imagine you have a layer for symbols you can access with a layer-tap key, and a 
 
 <img src="png/OSoS 15.png" width="600">
 
-An OSoS layer key can temporarily deactivate the layer it comes from, not to be limited by the layer stack. This layer is reactivated as soon as the one shot layer is deactivated. With this option, you can use an OSoS layer key on your symbol layer without needing to worry about the layer stack anymore.
+With the option `OS_STEROIDS_FREE_LAYER_STACK`, an OSoS layer key temporarily deactivates the layer it was pressed from, allowing it to bypass the usual layer stack restrictions. The original layer is automatically restored when the OSoS layer is deactivated. With this option, you can place OSoS layer keys on any layer without worrying about the layer stack.
 
 <img src="png/OSoS 7.png" width="600">
 
