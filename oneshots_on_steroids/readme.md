@@ -39,7 +39,7 @@ Add the following to the list of modules in your `keymap.json` to enable this mo
 
 First, in `config.h`, define how many One Shot on Steroids keys you’ll use and the One Shot Term (in milliseconds):
 ```c
-#define OS_STEROIDS_COUNT 3
+#define OS_STEROIDS_COUNT 4
 #define OS_STEROIDS_TERM 200
 ```
 
@@ -57,6 +57,7 @@ const oneshot_on_steroids_t oneshot_os[] = {
  // {OS(trigger key, modifier,         layer   )}
     {OS(OS_SHFT,     MOD_BIT(KC_LSFT), 0       )},
     {OS(OS_NUM,      0,                _NUMBERS)},
+    {OS(OS_NAV,      0,                _NAV    )},
     {OS(OS_WNUM,     MOD_BIT(KC_LGUI), _NUMBERS)}
 };
 ```
@@ -204,7 +205,7 @@ To enable this behavior, add the following to your `config.h`:
 #define OS_STEROIDS_FREE_LAYER_STACK
 ```
 
-For finer control, you can add the following callback to your `keymap.c`, You can customize the behavior based on the originating layer, the OSoS key being pressed, or both. 
+For finer control, you can add the following callback to your `keymap.c`. You can customize the behavior based on the originating layer, the OSoS key being pressed, or both. 
 In this example, the `_NUMBERS` layer can’t be deactivated by OSoS layer keys, and `OS_WNUM` doesn’t deactivate the layer it comes from:
 ```c
 bool should_oneshot_on_steroids_deactivate_layer(uint16_t keycode, uint8_t layer) {
@@ -223,7 +224,7 @@ bool should_oneshot_on_steroids_deactivate_layer(uint16_t keycode, uint8_t layer
 &nbsp;</br>
 ### Mod-absorbing One Shot Layers
 
-Imagine you have a navigation layer. Using this layer while holding `GUI` for window‑management can be cumbersome. If you define `OS_STEROIDS_ABSORB_MODS` in your `config.h`, an active modifier when an OSoS layer key is pressed remains registered as long as the layer is active.
+Imagine you have a navigation layer. Using this layer while holding `GUI` for window‑management can be cumbersome. With the option `OS_STEROIDS_ABSORB_MODS`, an active modifier when an OSoS layer key is pressed remains registered as long as the layer is active.
 
 If an OSoS layer key is pressed after a one shot modifier (vanilla or OSoS), it absorbs that modifier:
 
@@ -237,9 +238,12 @@ If another key is pressed before the modifier key is released, the modifier is c
 
 <img src="png/OSoS 12.png" width="600">
 
-To check if a modifier has been absorbed by a OSoS layer key, you can use this function: `has_mod_been_absorbed_by_osl(mod)`
+To enable this behaviour,  add the following to your `config.h`:
+```c
+#define OS_STEROIDS_ABSORB_MODS
+```
 
-If you need further customization, you can add the following function to your `keymap.c`, and modify it to suit your needs:
+If you need further customization, you can add the following callback to your `keymap.c`, and modify it to suit your needs:
 
 ```c
 bool should_osl_on_steroids_absorb_mods(uint16_t keycode) {
@@ -250,6 +254,8 @@ bool should_osl_on_steroids_absorb_mods(uint16_t keycode) {
     }
 }
 ```
+
+Similar to `get_mods()`, `get_absorbed_mods()` returns the modifiers currently absorbed by an OSoS layer.
 
 &nbsp;</br>
 ### Split Trigger and Hold Keys
@@ -264,6 +270,7 @@ const oneshot_on_steroids_t oneshot_os[] = {
  // "Regular" OSoS keys: the trigger key and the holding key are the same
     {OS(OS_SHFT,     OS_SHFT,     MOD_BIT(KC_LSFT), 0       )},
     {OS(OS_NUM,      OS_NUM,      0,                _NUMBERS)},
+    {OS(OS_NAV,      OS_NAV       0,                _NAV    )},
  // OSoS keys with a holding key different from the trigger key
     {OS(OS_WINM,     LT_NAV,      0,                _WINMGMT)},
     {OS(OS_WNUM,     LT_NUM,      MOD_BIT(KC_LGUI), _NUMBERS)},
