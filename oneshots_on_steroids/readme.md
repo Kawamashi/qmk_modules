@@ -316,11 +316,11 @@ It’s possible to go back and forth between a secondary and a tertiary layer by
 
 ### Interactions with modifier and layer keys
 
-OSoS keys interact with modifier and layer keys in a natural way, should they be Mod-Tap or Layer‑Tap keys, vanilla or on steroids one shot keys, etc. 
+OSoS keys interact naturally with modifier and layer keys, including Mod-Tap and Layer-Tap keys, vanilla One Shot keys, OSoS keys, etc.
 
 <img src="png/OSoS 16.png" width="1100">
 
-Let’s say you tap the `OS_NUM` key, then the `OS_SHFT` key and finally the `KC_1` key . By default, pressing an OSoS modifier key after an OSoS layer key does not deactivate the layer. Instead, the layer remains active until the next non-modifier key press. This can be inconvenient for Callum-modifiers users, who have their modifiers on secondary layers and expect them to be applied to the base layer. To change this behavior, add the following to your `config.h`:
+For example, suppose you tap the `OS_NUM` key, then the `OS_SHFT` key and finally the `KC_1` key . By default, pressing an OSoS modifier key after an OSoS layer key does not deactivate the layer. Instead, the layer remains active until the next non-modifier key press. This can be inconvenient for Callum-modifiers users, who have their modifiers on secondary layers and expect them to be applied to the base layer. To change this behavior, add the following to your `config.h`:
 ```c
 #define OS_MOD_SHOULD_LEAVE_OS_LAYER
 ```
@@ -337,13 +337,13 @@ bool should_oneshot_on_steroids_ignore_key(uint16_t keycode, uint16_t oneshot, k
     // It should only be overridden if the default behavior does not meet your needs.
 }
 ```
-This callback determines whether a key press should be ignored by an active OSoS key. The default implementation handles modifier and layer keys (`MO`, `LM`, `TG`, `TO`, `TT`), Mod-Tap and Layer‑Tap keys, One Shot keys, OSoS keys and other QMK keycodes.
+This callback determines whether a key press should be ignored by an active OSoS key. The default implementation handles modifier and layer keys (`MO`, `LM`, `TG`, `TO`, `TT`), Mod-Tap and Layer‑Tap keys, One Shot keys, OSoS keys, etc.
 The default implementation is available [here](https://github.com/Kawamashi/qmk_modules/blob/4d9b9523715a07a5bf4a5168b589943bb8881dba/oneshots_on_steroids/oneshots_on_steroids.c#L28).
 
 &nbsp;</br>
 ### Complete custom behavior
 
-If you want an OSoS key to have completely customized behavior, add the following callback to your `keymap.c`. It is called before the OSoS logic is executed. Returning `false` skips the default One Shot on Steroids behavior and prevents further processing of the key event.
+If you want an OSoS key to have completely customized behavior, add the following callback to your `keymap.c`. It is called before any OSoS processing takes place. Returning `false` skips the default One Shot on Steroids behavior and prevents further processing of the key event.
 
 Here is an example of two use-cases: completely replacing the behavior of an OSoS key, and modifying the context before processing the key normally.
 
