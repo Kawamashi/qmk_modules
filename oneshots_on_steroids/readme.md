@@ -316,7 +316,7 @@ It’s possible to go back and forth between a secondary and a tertiary layer by
 
 ### Interactions with modifier and layer keys
 
-OSoS keys interact naturally with modifier and layer keys, including Mod-Tap and Layer-Tap keys, vanilla One Shot keys, OSoS keys, etc.
+OSoS keys interact naturally with modifier and layer keys, including Mod-Tap and Layer-Tap keys, vanilla one shot keys, OSoS keys, etc.
 
 <img src="png/OSoS 16.png" width="1100">
 
@@ -337,7 +337,7 @@ bool should_oneshot_on_steroids_ignore_key(uint16_t keycode, uint16_t oneshot, k
     // It should only be overridden if the default behavior does not meet your needs.
 }
 ```
-This callback determines whether a key press should be ignored by an active OSoS key. The default implementation handles modifier and layer keys (`MO`, `LM`, `TG`, `TO`, `TT`), Mod-Tap and Layer‑Tap keys, One Shot keys, OSoS keys, etc.
+This callback determines whether a key press should be ignored by an active OSoS key. The default implementation handles modifier and layer keys (`MO`, `LM`, `TG`, `TO`, `TT`), Mod-Tap and Layer‑Tap keys, one shot keys, OSoS keys, etc.
 The default implementation is available [here](https://github.com/Kawamashi/qmk_modules/blob/4d9b9523715a07a5bf4a5168b589943bb8881dba/oneshots_on_steroids/oneshots_on_steroids.c#L28).
 
 &nbsp;</br>
