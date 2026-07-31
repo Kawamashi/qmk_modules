@@ -377,17 +377,43 @@ bool should_oneshot_on_steroids_ignore_key(uint16_t keycode, uint16_t oneshot, k
 ```
 &nbsp;</br>
 
-If you want an OSoS key to have completely customized behavior, there is a callback called at the very beginning of the code, before the OSoS logic is executed. For that, add the following function to your `keymap.c`, and modify it to suit your needs:
+If you want an OSoS key to have completely customized behavior, add the following callback to your `keymap.c`. It is called before the OSoS logic is executed. Returning `false` skips the default One Shot on Steroids behavior and prevents further processing of the key event.
+
+Here is an example of two use-cases: completely replacing the behavior of an OSoS key, and modifying the context before processing the key normally.
+
 ```c
 bool is_oneshot_on_steroids_custom_behavior(uint16_t keycode, keyrecord_t* record) {
     switch (keycode) {
 
+        case OS_NAV:
+            // If OS_NAV is pressed while OS_SHFT is active,
+            // deactivate OS_SHFT and turn caps word on
+            // instead of normal processing of OS_NAV.
+            if (get_oneshot_on_steroids_state(OS_SHFT) > 0) {
+                clear_oneshot_mods_on_steroids();
+                caps_word_on();
+                return false;
+            }
+            break;
+
+#   ifdef OS_STEROIDS_ABSORB_MODS
+        case OS_NUM:
+            // If OS_NUM is pressed while caps word is active,
+            // turn it off and send a one shot shift so that OS_NUM absorbs it.
+            // Process OS_NUM normally afterwards.
+            if (is_caps_word_on()) {
+                add_oneshot_mods(MOD_BIT(KC_LSFT));
+                caps_word_off();
+            }
+            return true;
+#   endif  // OS_STEROIDS_ABSORB_MODS
+
         default:
+            // Process other OSoS keys normally.
             return true;
     }
 }
 ```
-If the function returns `false`, QMK stops further processing, preventing the One Shot on Steroids behavior from being applied. 
 
 &nbsp;</br>
 ## Functions
