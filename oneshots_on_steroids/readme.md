@@ -402,8 +402,8 @@ bool is_oneshot_on_steroids_custom_behavior(uint16_t keycode, keyrecord_t* recor
             // turn it off and send a one shot shift so that OS_NUM absorbs it.
             // Process OS_NUM normally afterwards.
             if (is_caps_word_on()) {
-                add_oneshot_mods(MOD_BIT(KC_LSFT));
                 caps_word_off();
+                add_oneshot_mods(MOD_BIT(KC_LSFT));
             }
             return true;
 #   endif  // OS_STEROIDS_ABSORB_MODS
