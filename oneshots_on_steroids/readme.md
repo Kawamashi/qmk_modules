@@ -186,7 +186,7 @@ If you want a macro to cancel One Shots on Steroids, you can use some [functions
 
 ### One Shot Layers freed from the layer stack
 
-Imagine you have a layer for symbols you can access with a layer-tap key, and a layer for numbers. Sometimes you want to use the symbol layer while inputting numbers, and sometimes you want to insert a number while inputting symbols. If the number layer index is lower than the symbol layer one, the latter use-case is impossible. 
+Imagine you have a layer for symbols you can access with a layer-tap key, and a layer for numbers. Sometimes you want to use the symbol layer while inputting numbers, and sometimes you want to insert a number while inputting symbols. If the number layer index is lower than the symbol layer one, the latter use case is impossible. 
 
 <img src="png/OSoS 15.png" width="600">
 
@@ -240,7 +240,7 @@ If another key is pressed before the modifier key is released, the modifier is c
 
 <img src="png/OSoS 12.png" width="600">
 
-To enable this behaviour,  add the following to your `config.h`:
+To enable this behavior,  add the following to your `config.h`:
 ```c
 #define OS_STEROIDS_ABSORB_MODS
 ```
@@ -345,7 +345,7 @@ The default implementation is available [here](https://github.com/Kawamashi/qmk_
 
 If you want an OSoS key to have completely customized behavior, add the following callback to your `keymap.c`. It is called before any OSoS processing takes place. Returning `false` skips the default One Shot on Steroids behavior and prevents further processing of the key event.
 
-Here is an example of two use-cases: completely replacing the behavior of an OSoS key, and modifying the context before processing the key normally.
+Here is an example of two use cases: completely replacing the behavior of an OSoS key, and modifying the context before processing the key normally.
 
 ```c
 bool is_oneshot_on_steroids_custom_behavior(uint16_t keycode, keyrecord_t* record) {
@@ -399,3 +399,4 @@ You can manipulate One Shot on Steroids with these functions:
 | `reset_oneshot_layer_on_steroids()`      | Deactivates the active OSoS layer key.                                     |
 | `del_oneshot_mods_on_steroids(mods)`     | Deactivates all OSoS keys using `mods`.                                    |
 | `clear_oneshot_mods_on_steroids()`       | Deactivates all OSoS keys using any modifier.                              |
+| `get_absorbed_mods()`                    | Returns the modifiers absorbed by an OSoS layer key.                       |
