@@ -243,13 +243,29 @@ To enable this behaviour,  add the following to your `config.h`:
 #define OS_STEROIDS_ABSORB_MODS
 ```
 
-If you need further customization, you can add the following callback to your `keymap.c`, and modify it to suit your needs:
+If you need further customization, you can add the following callback to your `keymap.c`, and modify it to suit your needs. For example:
 
 ```c
 bool should_osl_on_steroids_absorb_mods(uint16_t keycode) {
+    const uint8_t mods = get_mods() | get_oneshot_mods();
+
     switch (keycode) {
+        case OS_NAV:
+            // OS_NAV doesn't absorb Alt-Gr
+            if (mods & MOD_BIT(KC_ALGR)) { return false; }
+            break;
+
+        case OS_NUM:
+            // OS_NUM only absorbs Shift
+            if (mods & ~MOD_MASK_SHIFT) { return false; }
+            break;
+
+        case OS_WNUM:
+            // OS_WNUM doesn't absorb mods
+            return false;
 
         default:
+            // Other OSoS layer keys absorb mods
             return true;
     }
 }
