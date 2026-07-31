@@ -320,7 +320,7 @@ OSoS keys interact naturally with modifier and layer keys, including Mod-Tap and
 
 <img src="png/OSoS 16.png" width="1100">
 
-For example, suppose you tap the `OS_NUM` key, then the `OS_SHFT` key and finally the `KC_1` key . By default, pressing an OSoS modifier key after an OSoS layer key does not deactivate the layer. Instead, the layer remains active until the next non-modifier key press. This can be inconvenient for Callum-modifiers users, who have their modifiers on secondary layers and expect them to be applied to the base layer. To change this behavior, add the following to your `config.h`:
+For example, suppose you tap the `OS_NUM` key, then the `OS_SHFT` key and finally the `KC_1` key . By default, pressing an OSoS modifier key after an OSoS layer key does not deactivate the layer. Instead, the layer remains active until the next non-modifier key press. This can be inconvenient for Callum-modifiers users, who have their modifiers on secondary layers and expect them to affect the base layer. To change this behavior, add the following to your `config.h`:
 ```c
 #define OS_MOD_SHOULD_LEAVE_OS_LAYER
 ```
