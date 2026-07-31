@@ -312,6 +312,8 @@ It’s possible to go back and forth between a secondary and a tertiary layer by
 &nbsp;</br>
 ## Other customization options
 
+<img src="png/OSoS 16.png" width="1100">
+
 When I developed One Shots on Steroids, I spent a lot of time determining whether modifier keys, layer-changer keys, one shot keys (vanilla or OSoS) should “consume” a one shot on steroids. The default setting should suit most use cases. However, there is an exception: if you use an OSoS layer key to access OSoS modifier keys as Callum modifiers, add the following to your `config.h`:
 ```c
 #define OS_MOD_SHOULD_LEAVE_OS_LAYER
