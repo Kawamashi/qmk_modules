@@ -279,7 +279,11 @@ Similar to `get_mods()`, `get_absorbed_mods()` returns the modifiers currently a
 
 Imagine you want to access your tertiary layers, such as function or media layers, with OSoS keys. There is no room for them on your base layer, so they will be on a secondary layer. But your secondary layers are pretty crowded too, leaving only less ergonomic key positions. Holding keys outside of the home‑row can be tiring, so why not use the comfortable thumb key you’re already holding to access the secondary layer ? If you can’t picture this use case, I strongly encourage you to read [Lobre’s write-up](https://github.com/lobre/shaka34/blob/main/gesture/README.md).
 
-Defining `OS_STEROIDS_SPLIT_TRIGGER_HOLD` in your `config.h` allows you to separate the key that triggers the one shot from the key that keeps it active. The one shot-type wrapper now uses another parameter: `OS(trigger key, holding key, modifier, layer)`. You may have to modify existing OSoS array accordingly:
+Defining `OS_STEROIDS_SPLIT_TRIGGER_HOLD` in your `config.h` allows you to separate the key that triggers the one shot from the key that keeps it active:
+```c
+#define OS_STEROIDS_SPLIT_TRIGGER_HOLD
+```
+The one shot-type wrapper now uses another parameter: `OS(trigger key, holding key, modifier, layer)`. You may have to modify existing OSoS array accordingly:
 ```c
 const oneshot_on_steroids_t oneshot_os[] = {
  // {OS(trigger key, holding key, modifier,         layer   )}
