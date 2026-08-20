@@ -1,6 +1,6 @@
 # One Shots on Steroids
 
-*Highly customizable instant-activation one shot keys for QMK*
+## Highly customizable instant-activation one shot keys for QMK
 
 This is my take on how one shot keys should work: the modifier or layer is activated as soon as the key is pressed, and remains active while the key is held. If the one shot key is released before the One Shot Term without another key having been pressed in between, the modifier or layer remains active until the next key press, after which it’s deactivated.
 
@@ -333,12 +333,14 @@ If you need further customization, you can add the following callback to your `k
 
 ```c
 bool should_oneshot_on_steroids_ignore_key(uint16_t keycode, uint16_t oneshot, keyrecord_t* record) {
-    // Disclaimer: this function is essential for proper operation of OSoS.
-    // It should only be overridden if the default behavior does not meet your needs.
+
 }
 ```
 This callback determines whether a key press should be ignored by an active OSoS key. The default implementation handles modifier and layer keys (`MO`, `LM`, `TG`, `TO`, `TT`), Mod-Tap and Layer‑Tap keys, one shot keys, OSoS keys, etc.
 The default implementation is available [here](oneshots_on_steroids.c#L546).
+> [!CAUTION]
+> This function is essential for proper operation of OSoS.
+> It should only be overridden if the default behavior does not meet your needs.
 
 &nbsp;</br>
 ### Complete custom behavior
