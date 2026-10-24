@@ -10,7 +10,7 @@ One Shot on Steroids keys are *forgiving*: tap an OSoS key again to cancel it. A
 
 One Shot on Steroids keys are *flexible*: an OSoS key can be used to activate a layer alongside one or more modifiers. 
 
-One Shot on Steroids keys are *versatile*: three optional behaviors can be enabled, individually or in combination, to better suit your needs.
+One Shot on Steroids keys are *versatile*: four optional behaviors can be enabled, individually or in combination, to better suit your needs.
 
 &nbsp;</br>
 * [Set up](#Set-up)
@@ -19,6 +19,7 @@ One Shot on Steroids keys are *versatile*: three optional behaviors can be enabl
    * [Different modifiers, different behaviors](#Different-modifiers-different-behaviors)
 * [Cancelling One Shots on Steroids](#Cancelling-One-Shots-on-Steroids)
 * [Optional behaviors](#Optional-behaviors)
+   * [Automatic One-Shot Release](#Automatic-One-Shot-Release)
    * [One Shot Layers freed from the layer stack](#One-Shot-Layers-freed-from-the-layer-stack)
    * [Mod-absorbing One Shot Layers](#Mod-absorbing-One-Shot-Layers)
    * [Split Trigger and Hold Keys](#Split-Trigger-and-Hold-Keys)
@@ -184,6 +185,34 @@ If you want a macro to cancel One Shots on Steroids, you can use some [functions
 &nbsp;</br>
 ## Optional behaviors
 
+### Automatic One Shot Release
+
+You may want your one shot keys to affect only the next keypress, regardless of whether the one-shot key is still held down. With the option `OS_STEROIDS_AUTOMATIC_RELEASE`, OSoS keys are automatically deactivated after the next keypress:
+
+<img src="png/OSoS 17.png" width="600">
+
+To enable this behavior, add the following to your `config.h`:
+```c
+#define OS_STEROIDS_AUTOMATIC_RELEASE
+```
+
+For finer control, you can add the following callback to your `keymap.c`. You can customize the behavior based on the OSoS key being pressed, the next key, or both. 
+In this example, `OS_SHFT` affects only the next keypress, and `OS_1DK` is automatically released if the next key is `K` :
+```c
+bool should_automatically_release_oneshot_on_steroids(uint16_t keycode, uint16_t oneshot, keyrecord_t* record) {
+    switch (oneshot) {
+        case OS_SHFT:
+            return true;
+        case OS_1DK:
+            if (keycode == PG_K) { return true; }
+            return false;
+        default:
+            return false;
+    }
+}
+```
+
+&nbsp;</br>
 ### One Shot Layers freed from the layer stack
 
 Imagine you have a layer for symbols you can access with a layer-tap key, and a layer for numbers. Sometimes you want to use the symbol layer while inputting numbers, and sometimes you want to insert a number while inputting symbols. If the number layer index is lower than the symbol layer one, the latter use case is impossible. 
