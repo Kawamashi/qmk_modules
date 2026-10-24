@@ -174,7 +174,7 @@ More information can be found [here](https://docs.qmk.fm/features/key_overrides#
 
 If you tapped an OSoS key by mistake, just tap it again to cancel it. 
 
-A timeout can be defined in `config.h` to automatically deactivate OSoS keys after a period of keyboard inactivity:
+OSoS keys are automatically deactivated after a period of keyboard inactivity. The default is 5000 (5 seconds). Configure the timeout duration in `config.h`, for instance:
 ```c
 #define OS_STEROIDS_TIMEOUT 3000    // 3 seconds
 ```
@@ -185,12 +185,13 @@ uint16_t get_oneshot_on_steroids_timeout(uint16_t keycode, keyrecord_t *record) 
         case OS_SHFT:
             return OS_STEROIDS_TIMEOUT - 1000;
         case OS_NUM:
-            return 5000; 
+            return 10000; 
         default:
             return OS_STEROIDS_TIMEOUT;
     }
 }
 ```
+Setting `OS_STEROIDS_TIMEOUT` to 0 configures One Shots on Steroids to never time out. One Shots on Steroids then remain active indefinitely until another key is pressed.
 
 &nbsp;</br>
 Some keys can be configured as *cancel keys*. When pressed, they immediately deactivate any active One Shot on Steroids.\
