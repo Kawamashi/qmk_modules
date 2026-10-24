@@ -4,7 +4,7 @@
 
 This is my take on how one shot keys should work: the modifier or layer is activated as soon as the key is pressed, and remains active while the key is held. If the one shot key is released before the One Shot Term without another key having been pressed in between, the modifier or layer remains active until the next key press, after which it’s deactivated.
 
-One Shot on Steroids (OSoS) keys are *snappy*: the mod or layer is activated immediately on key down, without waiting for the tap-hold resolution like regular one shot keys. For example, with mouse, using an OSoS Shift key feels just as natural as using a regular shift key.
+One Shot on Steroids (OSoS) keys are *snappy*: the mod or layer is activated immediately on key down, without waiting for the tap-hold resolution like regular one shot keys. For example, with a mouse, using an OSoS Shift key feels just as natural as using a regular shift key.
 
 One Shot on Steroids keys are *forgiving*: tap an OSoS key again to cancel it. An optional timeout can also be defined, to automatically deactivate OSoS after a period of keyboard inactivity.
 
@@ -14,6 +14,9 @@ One Shot on Steroids keys are *versatile*: four optional behaviors can be enable
 
 &nbsp;</br>
 * [Set up](#Set-up)
+* [Comparison with existing implementations](#Comparison-with-existing-implementation)
+   * [Stock QMK One Shot Keys](#Stock-QMK-One-Shot-Keys)
+   * [Callum Mods](#Callum-Mods)
 * [How One Shots on Steroids work](#How-One-Shots-on-Steroids-work)
    * [One Shot Term](#One-Shot-Term)
    * [Different modifiers, different behaviors](#Different-modifiers-different-behaviors)
@@ -65,6 +68,30 @@ const oneshot_on_steroids_t oneshot_os[] = {
 };
 ```
 Each entry of this array must use the one shot-type wrapper `OS(keycode, modifier, layer)`. The `modifier` field uses the `MOD_BIT()` macro (not `MOD_xxx` constants), or `0` for layer-only one shot keys. For modifier-only one shot keys, simply use `0` for the `layer` field.
+
+&nbsp;</br>
+## Comparison with existing implementations
+
+### Stock QMK One Shot Keys
+
+QMK one shot keys are affected by tap-hold timing and resolution like regular tap-hold keys. This means that the modifier or layer is not activated immediately, but only when the one shot key is considered held, in other words after the tapping term:
+
+<img src="png/OSoS 18.png" width="600">
+
+If the one shot key is released before the tapping term expires, it triggers the one shot behavior:
+
+<img src="png/OSoS 19.png" width="600">
+
+If another key is pressed before the the tapping term expires, the output depends on the options used to configure the tap-hold behavior (such as `Permissive Hold` or `Chordal Hold`). Most users don’t expect their tap-hold settings to affect the behavior of one shot keys, which can lead to unexpected results:
+
+<img src="png/OSoS 20.png" width="600">
+
+Many users don’t have issues with stock one shot keys. However, I believe one shot keys should activate the modifier (or layer) immediately on key down, making them feel natural to use with a mouse for example. Moreover, most users don’t see one shot keys as tap-hold keys and may be surprised when tap-hold settings affect their behavior, particularly when rolling keys combined with a one shot key or pressing two one-shot keys simultaneously.
+
+
+### Callum mods
+
+The best known alternative to stock one shot keys are [Callum modifiers](https://github.com/callum-oakley/qmk_firmware/tree/master/users/callum#oneshot-modifiers). They are essentially timerless one shot modifiers, allowing multiple modifiers to be combined without waiting for tap-hold resolution. They are nice to use, but they need to be cancelled when used with a mouse, which can be cumbersome. Furthermore, Callum’s implementation does not provide one shot layer keys. 
 
 &nbsp;</br>
 ## How One Shots on Steroids work
