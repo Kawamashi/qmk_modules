@@ -52,7 +52,7 @@ typedef enum {
     os_down_unused,
     os_down_used,
     os_up_queued,
-    os_up_queued_used,
+    os_finished,
 } oneshot_on_steroids_state_t;
 
 // Oneshot-type wrapper
@@ -141,6 +141,12 @@ bool should_oneshot_on_steroids_absorb_mods(uint16_t keycode);
 // Callback to customise which OSoS layer keys should deactivate their origin layer.
 bool should_oneshot_on_steroids_deactivate_layer(uint16_t keycode, uint8_t layer);
 #   endif  // OS_STEROIDS_FREE_LAYER_STACK
+
+#   ifdef OS_STEROIDS_AUTOMATIC_RELEASE
+// Callback to customise which OSoS keys should be released after another keypress,
+// even if the OSoS key is still pressed
+bool should_automatically_release_oneshot_on_steroids(uint16_t keycode, uint16_t oneshot, keyrecord_t* record);
+#   endif
 
 #ifdef __cplusplus
 }

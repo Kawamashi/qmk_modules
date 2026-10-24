@@ -149,11 +149,11 @@ static bool should_unregister_osm_on_steroids(int8_t index) {
     return true;
 }
 
-static bool should_oneshot_on_steroids_stay_pressed(uint16_t keycode, uint16_t oneshot, keyrecord_t* record) {
-#       ifdef OS_STEROIDS_ONLY_ONE_SHOT
-    return !automatic_release_after_other_keypress(keycode, oneshot, record);
+static bool automatic_release_after_other_keypress(uint16_t keycode, uint16_t oneshot, keyrecord_t* record) {
+#       ifdef OS_STEROIDS_AUTOMATIC_RELEASE
+    return should_automatically_release_oneshot_on_steroids(keycode, oneshot, record);
 #       else
-    return true;
+    return false;
 #       endif
 }
 
@@ -431,7 +431,7 @@ static void process_other_key_press(uint8_t index, uint16_t keycode, keyrecord_t
     switch (oneshot_state[index]) {
         case os_down_unused:
             // When the oneshot key is still pressed
-            if (should_oneshot_on_steroids_stay_pressed(keycode, oneshot_os[index].trigger, record)) {
+            if (!automatic_release_after_other_keypress(keycode, oneshot_os[index].trigger, record)) {
                 oneshot_state[index] = os_down_used;
                 break;
             }
@@ -649,8 +649,8 @@ __attribute__((weak)) bool should_oneshot_on_steroids_deactivate_layer(uint16_t 
 }
 #endif  // OS_STEROIDS_FREE_LAYER_STACK
 
-#ifdef OS_STEROIDS_ONLY_ONE_SHOT
-__attribute__((weak)) bool automatic_release_after_other_keypress(uint16_t keycode, uint16_t oneshot, keyrecord_t* record) {
+#ifdef OS_STEROIDS_AUTOMATIC_RELEASE
+__attribute__((weak)) bool should_automatically_release_oneshot_on_steroids(uint16_t keycode, uint16_t oneshot, keyrecord_t* record) {
     switch (keycode) {
 
         default:
