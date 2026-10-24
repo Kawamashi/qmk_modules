@@ -113,7 +113,7 @@ static bool should_process_layer_release(uint8_t index, uint16_t keycode, keyrec
 #   endif  // OS_STEROIDS_FREE_LAYER_STACK
 
 
-#   ifdef OS_STEROIDS_TIMEOUT
+#   if OS_STEROIDS_TIMEOUT > 0
 static uint16_t idle_timer = 0;
 static int8_t timed_oneshot_index = -1;
 
@@ -128,9 +128,11 @@ void housekeeping_task_oneshots_on_steroids(void) {
 
 // Update the timeout of an OSoS key
 static void set_oneshot_on_steroids_idle_timer(uint16_t keycode, keyrecord_t *record) {
-    idle_timer = (record->event.time + get_oneshot_on_steroids_timeout(keycode, record)) | 1;
+    if (get_oneshot_on_steroids_timeout(keycode, record)) {
+        idle_timer = (record->event.time + get_oneshot_on_steroids_timeout(keycode, record)) | 1;
+    }
 }
-#   endif  // OS_STEROIDS_TIMEOUT
+#   endif  // OS_STEROIDS_TIMEOUT > 0
 
 
 static void unregister_mods_on_steroids(uint8_t mods) {
@@ -228,12 +230,12 @@ static void deactivate_oneshot_on_steroids(int8_t index, bool called_by_user) {
         }
     }
     oneshot_state[index] = os_idle;
-#       ifdef OS_STEROIDS_TIMEOUT
+#       if OS_STEROIDS_TIMEOUT > 0
     if (index == timed_oneshot_index) {
         idle_timer = 0;
         timed_oneshot_index = -1;
     }
-#       endif  // OS_STEROIDS_TIMEOUT
+#       endif  // OS_STEROIDS_TIMEOUT > 0
 }
 
 static int8_t get_oneshot_on_steroids_index(uint16_t keycode) {
@@ -352,7 +354,7 @@ static void process_trigger_press(uint8_t index, keyrecord_t *record) {
 
 #               ifdef OS_STEROIDS_ABSORB_MODS
             if (should_oneshot_on_steroids_absorb_mods(oneshot_os[index].trigger)) {
-#                   ifdef OS_STEROIDS_TIMEOUT
+#                   if OS_STEROIDS_TIMEOUT > 0
                 if (timed_oneshot_index != -1) {
                     if ((get_mods() | get_oneshot_mods()) & oneshot_os[timed_oneshot_index].modifier) {
                         // preventing OSM tapped before from idling
@@ -360,7 +362,7 @@ static void process_trigger_press(uint8_t index, keyrecord_t *record) {
                         timed_oneshot_index = -1;
                     }
                 }
-#                   endif  // OS_STEROIDS_TIMEOUT
+#                   endif  // OS_STEROIDS_TIMEOUT > 0
                 // removing the oneshot mod of `mods`
                 const uint8_t mods = get_mods() & ~oneshot_os[index].modifier;
                 if (mods) {
@@ -400,10 +402,10 @@ static void process_suppressor_release(uint8_t index, uint16_t keycode, keyrecor
                 add_oneshot_mods(oneshot_os[index].modifier);
             }
         }
-#           ifdef OS_STEROIDS_TIMEOUT
+#           if OS_STEROIDS_TIMEOUT > 0
         set_oneshot_on_steroids_idle_timer(oneshot_os[index].trigger, record);
-        timed_oneshot_index = index;
-#           endif  // OS_STEROIDS_TIMEOUT
+        if (idle_timer) { timed_oneshot_index = index; }
+#           endif  // OS_STEROIDS_TIMEOUT > 0
     } else {
         // The oneshot key has been released after the One Shot Term
         // or a key was tapped when the oneshot key was held:
@@ -421,9 +423,9 @@ static void process_other_key_press(uint8_t index, uint16_t keycode, keyrecord_t
     }
 
     if (should_oneshot_on_steroids_ignore_key(keycode, oneshot_os[index].trigger, record)) {
-#           ifdef OS_STEROIDS_TIMEOUT
+#           if OS_STEROIDS_TIMEOUT > 0
         if (idle_timer) { set_oneshot_on_steroids_idle_timer(oneshot_os[index].trigger, record); }
-#           endif  // OS_STEROIDS_TIMEOUT
+#           endif  // OS_STEROIDS_TIMEOUT > 0
         return;
     }
     
@@ -619,7 +621,7 @@ __attribute__((weak)) uint16_t get_oneshot_on_steroids_term(uint16_t keycode, ke
     }
 }
 
-#   ifdef OS_STEROIDS_TIMEOUT
+#   if OS_STEROIDS_TIMEOUT > 0
 __attribute__((weak)) uint16_t get_oneshot_on_steroids_timeout(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
     
@@ -627,7 +629,7 @@ __attribute__((weak)) uint16_t get_oneshot_on_steroids_timeout(uint16_t keycode,
         return OS_STEROIDS_TIMEOUT;
     }
 }
-#   endif  // OS_STEROIDS_TIMEOUT
+#   endif  // OS_STEROIDS_TIMEOUT > 0
 
 #ifdef OS_STEROIDS_ABSORB_MODS
 __attribute__((weak)) bool should_oneshot_on_steroids_absorb_mods(uint16_t keycode) {
@@ -657,4 +659,4 @@ __attribute__((weak)) bool should_automatically_release_oneshot_on_steroids(uint
             return true;
     }
 }
-#endif  // OS_STEROIDS_FREE_LAYER_STACK
+#endif  // OS_STEROIDS_AUTOMATIC_RELEASE

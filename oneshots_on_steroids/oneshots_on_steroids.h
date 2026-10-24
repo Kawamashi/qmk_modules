@@ -62,8 +62,12 @@ typedef enum {
 #  define OS(key, mods, layer) key, key, mods, layer
 #endif  // OS_STEROIDS_SPLIT_TRIGGER_HOLD
 
-#if !defined OS_STEROIDS_TERM
+#ifndef OS_STEROIDS_TERM
 #   define OS_STEROIDS_TERM TAPPING_TERM
+#endif
+
+#ifndef OS_STEROIDS_TIMEOUT
+#    define OS_STEROIDS_TIMEOUT 5000 // Default timeout of 5 seconds.
 #endif
 
 // If the keycode is an OSoS key, returns its state
@@ -127,10 +131,10 @@ bool should_oneshot_on_steroids_ignore_key(uint16_t keycode, uint16_t trigger, k
 // By default, the function returns true if mods include shift or ctrl.
 bool should_mod_be_held_after_oneshot_release(uint8_t mod, uint16_t keycode);
 
-#   ifdef OS_STEROIDS_TIMEOUT
+#   if OS_STEROIDS_TIMEOUT > 0
 // // Callback to customise the timeout for each OSoS keys.
 uint16_t get_oneshot_on_steroids_timeout(uint16_t keycode, keyrecord_t *record);
-#   endif  // OS_STEROIDS_TIMEOUT
+#   endif  // OS_STEROIDS_TIMEOUT > 0
 
 #   if defined OS_STEROIDS_ABSORB_MODS
 // Callback to customise which OSoS layer keys should absorb modifiers.
