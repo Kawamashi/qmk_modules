@@ -149,6 +149,14 @@ static bool should_unregister_osm_on_steroids(int8_t index) {
     return true;
 }
 
+static bool should_oneshot_on_steroids_stay_pressed(uint16_t keycode, uint16_t oneshot, keyrecord_t* record) {
+#       ifdef OS_STEROIDS_ONLY_ONE_SHOT
+    return !automatic_release_after_other_keypress(keycode, oneshot, record);
+#       else
+    return true;
+#       endif
+}
+
 static bool should_deactivate_layer(int8_t index) {
 #       ifdef OS_STEROIDS_FREE_LAYER_STACK
     if (active_osl_index != -1 && index != active_osl_index) {
@@ -183,7 +191,7 @@ static void deactivate_oneshot_on_steroids(int8_t index, bool called_by_user) {
                         del_oneshot_mods(oneshot_os[index].modifier);
                     }
                     break;
-                case os_up_queued_used:
+                case os_finished:
                     if (should_mod_be_held_after_oneshot_release(oneshot_os[index].modifier, oneshot_os[index].trigger)) {
                         unregister_mods(oneshot_os[index].modifier);
                     } else if (called_by_user) {
@@ -320,7 +328,6 @@ void clear_oneshot_mods_on_steroids(void) {
     }
 }
 
-
 static void process_trigger_press(uint8_t index, keyrecord_t *record) {
 
     if (oneshot_state[index] == os_idle) {
@@ -424,8 +431,10 @@ static void process_other_key_press(uint8_t index, uint16_t keycode, keyrecord_t
     switch (oneshot_state[index]) {
         case os_down_unused:
             // When the oneshot key is still pressed
-            oneshot_state[index] = os_down_used;
-            break;
+            if (should_oneshot_on_steroids_stay_pressed(keycode, oneshot_os[index].trigger, record)) {
+                oneshot_state[index] = os_down_used;
+                break;
+            }
         case os_up_queued:
             if (is_oneshot_on_steroids(keycode)) {
                 // because process_record_oneshots_on_steroids() will return false,
@@ -433,7 +442,7 @@ static void process_other_key_press(uint8_t index, uint16_t keycode, keyrecord_t
                 // post_process_record_oneshots_on_steroids will never be reached.
                 deactivate_oneshot_on_steroids(index, false);
             } else {
-                oneshot_state[index] = os_up_queued_used;
+                oneshot_state[index] = os_finished;
             }
             break;
         default:
@@ -509,7 +518,7 @@ void post_process_record_oneshots_on_steroids(uint16_t keycode, keyrecord_t *rec
     // and the second one being a mod-tap on base layer.
 
     for (uint8_t i = 0; i < OS_STEROIDS_COUNT; i++) {
-        if (oneshot_state[i] == os_up_queued_used) {
+        if (oneshot_state[i] == os_finished) {
             // The oneshot has been used.
             deactivate_oneshot_on_steroids(i, false);
             continue;
@@ -632,6 +641,16 @@ __attribute__((weak)) bool should_oneshot_on_steroids_absorb_mods(uint16_t keyco
 
 #ifdef OS_STEROIDS_FREE_LAYER_STACK
 __attribute__((weak)) bool should_oneshot_on_steroids_deactivate_layer(uint16_t keycode, uint8_t layer) {
+    switch (keycode) {
+
+        default:
+            return true;
+    }
+}
+#endif  // OS_STEROIDS_FREE_LAYER_STACK
+
+#ifdef OS_STEROIDS_ONLY_ONE_SHOT
+__attribute__((weak)) bool automatic_release_after_other_keypress(uint16_t keycode, uint16_t oneshot, keyrecord_t* record) {
     switch (keycode) {
 
         default:
