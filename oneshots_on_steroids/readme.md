@@ -14,7 +14,7 @@ One Shot on Steroids keys are *versatile*: four optional behaviors can be enable
 
 &nbsp;</br>
 * [Set up](#Set-up)
-* [Comparison with existing implementations](#Comparison-with-existing-implementation)
+* [Comparison with existing implementations](#Comparison-with-existing-implementations)
    * [Stock QMK One Shot Keys](#Stock-QMK-One-Shot-Keys)
    * [Callum Mods](#Callum-Mods)
 * [How One Shots on Steroids work](#How-One-Shots-on-Steroids-work)
