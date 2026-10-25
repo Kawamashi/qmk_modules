@@ -1,9 +1,9 @@
 # Layer Word
 
-**Layer Word** is similar in concept to Caps Word, but applied to layers. When a Layer Word is enabled, the matching layer is activated, and remains active until a word-breaking character is tapped. For example, the Layer Word related to my number layer remains active as long as I type numeric symbols. The keycodes that allow each Layer Word to continue are user-defined.
+**Layer Word** works similarly to Caps Word, but for layers. When activated, it keeps a layer active until a word-breaking key is pressed. For example, the Layer Word configured for my Numbers layer remains active as long as I type numbers and mathematical operators. The keycodes that keep each Layer Word active are fully customizable.
 
 &nbsp;</br>
-## Set up
+## Setup
 
 Add the following to the list of modules in your `keymap.json` to enable this module:
 ```json
@@ -25,9 +25,9 @@ enum custom_keycodes {
 // `LT_NUMW` momentarily activates _NUMBERS layer on hold,
 // and triggers NUMWORD on tap.
 // `KC_0` is just a placeholder, it will never be sent.
-#define LT_NUMW LT(_NUMROW, KC_0)
+#define LT_NUMW LT(_NUMBERS, KC_0)
 
-uint8_t layerword_layer_from_trigger(uint16_t keycode) {
+uint8_t get_layerword_layer_from_trigger(uint16_t keycode) {
 
   switch (keycode) {
     case LT_NUMW: return _NUMBERS;
@@ -86,25 +86,42 @@ bool should_continue_layerword(uint8_t layer, uint16_t keycode, keyrecord_t *rec
 
 Any other symbol from the layer will be processed, but the Layer Word will end afterwards and the layer will be deactivated.
 
-The activation of a Layer Word automatically disables the other ones, to avoid messing up with the layer stack. A timeout can also be defined, to automatically deactivate Layer Words after a period of keyboard inactivity:
+Activating a Layer Word automatically deactivates any previously active Layer Word, to avoid messing up with the layer stack. 
 
+&nbsp;</br>
+### Layer Lock-like behavior
+
+Like [Layer Lock](https://docs.qmk.fm/features/layer_lock), Layer Word can keep a momentarily activated layer active after its activation key is released.
+
+For example, suppose you access your Navigation layer with a layer-tap key, and have a `NAVWORD` key on that layer. While holding the layer-tap key, pressing `NAVWORD` activates Layer Word on the Navigation layer. You can then release the layer-tap key, and the layer will remain active until a word-breaking key is pressed.
+
+This also works with Momentary (MO), Layer Tap (LT), Layer Tap Toggle (TT), Layer Mod (LM), One Shot Layer (OSL) keys and [One Shot Layer on Steroids](https://github.com/Kawamashi/qmk_modules/tree/main/oneshots_on_steroids) keys.
+
+&nbsp;</br>
+### Idle timeout
+
+Layer Word is automatically deactivated after a period of keyboard inactivity. The default is 5000 (5 seconds). Configure the timeout duration in `config.h`, for instance:
 ```c
-uint16_t layerword_exit_timeout(uint8_t layer) {
+#define LAYERWORD_TIMEOUT 3000    // 3 seconds
+```
+For more granular control, you can add the following callback to your `keymap.c` to customize the timeout for each Layer Word:
+```c
+uint16_t get_layerword_timeout(uint8_t layer) {
 
   switch (layer) {
+    case _FUNCTIONS:
+        return 30000;
     case _NUMBERS:
-    case _SHORTNAV:
-        return 3000;
+        return LAYERWORD_TIMEOUT - 1000;
     default:
-        return 0;
+        return LAYERWORD_TIMEOUT;
   }
 }
 ```
-&nbsp;</br>
+Setting `LAYERWORD_TIMEOUT` to 0 configures Layer Word to never time out. Layer Word then remains active indefinitely until a word-breaking key is pressed.
 
-When a trigger is located on the layer to which it is linked, Layer Word prevents Layer Taps, One-shot Layers, etc. to exit this layer, like [Layer Lock](https://docs.qmk.fm/features/layer_lock#layer-lock). For example, I access my Navigation layer with a Layer Tap key. On this layer, I have my `NAVWORD` key. When I press it, the navigation layer will stay on, even when the LT key is released. The layer will be automatically deactivated when a word-breaking character is tapped. 
 
-My Layer Words settings are located [here](https://github.com/Kawamashi/qmk_userspace/blob/2eda8743e5bc084ae41fbe80c64a765cb540efa8/users/Kawamashi/conf_words.c#L230).
+You can find my Layer Word configuration [here](https://github.com/Kawamashi/qmk_krypton_keymaps/blob/c67da7fb580399b95aec1556312d4c30397f01df/users/Kawamashi/customization.c#L565).
 
 &nbsp;</br>
 ## Functions
@@ -115,5 +132,5 @@ You can manipulate Layer Word with these functions:
 | --------------------------- | -------------------------------------------- | 
 | `get_layerword_layer()`     | Returns the layer of the active Layer Word   | 
 | `enable_layerword(layer)`   | Turns on the Layer Word of `layer`           | 
-| `disable_layerword(layer)`  | Turns off the Layer Word of `layer`          | 
+| `disable_layerword()`       | Turns off Layer Word                         | 
 | `toggle_layerword(keycode)` | Toggles the Layer Word triggered by `keycode`|
