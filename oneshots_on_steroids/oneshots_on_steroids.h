@@ -132,7 +132,7 @@ bool should_oneshot_on_steroids_ignore_key(uint16_t keycode, uint16_t trigger, k
 bool should_mod_be_held_after_oneshot_release(uint8_t mod, uint16_t keycode);
 
 #   if OS_STEROIDS_TIMEOUT > 0
-// // Callback to customise the timeout for each OSoS keys.
+// Callback to customise the timeout for each OSoS keys.
 uint16_t get_oneshot_on_steroids_timeout(uint16_t keycode, keyrecord_t *record);
 #   endif  // OS_STEROIDS_TIMEOUT > 0
 

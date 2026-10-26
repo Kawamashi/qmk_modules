@@ -25,44 +25,46 @@ extern "C" {
 /* Idle timeout:
  *
  * Layerword can be configured to deactivate if the keyboard is idle
- * for some time. This is useful to prevent unexpected behaviours.
- * To be called from `housekeeping_task_user`.
+ * for some time. This is useful to prevent unexpected behaviors.
 */
-//void housekeeping_task_layerword(void);
+#ifndef LAYERWORD_TIMEOUT
+#    define LAYERWORD_TIMEOUT 5000 // Default timeout of 5 seconds.
+#endif
 
-// Each layerword timeout timer can be defined individually (in ms).
-uint16_t layerword_exit_timeout(uint8_t layer);
+#   if LAYERWORD_TIMEOUT > 0
+// Returns the idle timeout for the specified layer (in milliseconds)
+uint16_t get_layerword_timeout(uint8_t layer);
+#   endif  // LAYERWORD_TIMEOUT > 0
 
-// Returns the active Layerword layer
+// If there is an active Layer Word, returns the layer
+// Otherwise, returns 0
 uint8_t get_layerword_layer(void);
 
-// Turns Layerword on
+// Returns whether a Layer Word is active
+bool is_layerword_active(void);
+
+// Activates Layer Word on the specified layer
 void enable_layerword(uint8_t layer);
 
-// Turns Layerword off
-void disable_layerword(uint8_t layer);
+// Deactivate Layer Word
+void disable_layerword(void);
 
-// Toggles Layerword
+// Toggles Layer Word based on the triggering keycode
 void toggle_layerword(uint16_t keycode);
 
-// Handler for keys triggering layerwords
+// Handler for Layer Word trigger keys
 bool process_layerword_triggers(uint16_t keycode, keyrecord_t *record);
 
-// Handler function for Layerword
-// To be called from `process_record_user`
-//bool process_record_layerword(uint16_t keycode, keyrecord_t *record);
-
-// Returns the layerword number of a key
-// Keys triggering layerwords must be declared here
-// and associated with their layer 
+// Returns the layer associated with a trigger keycode, or 0 if none
 uint8_t get_layerword_layer_from_trigger(uint16_t keycode);
 
-/* Callback function, called on each key press while Layerword is active.
+/* Callback function, called on each key press while Layer Word is active.
  *
- * This function is used to determine whether a key should continue Layerword.
- * Returning true will continue Layerword and stay on layer after key processing.
- * Returning false will end layerword and exit layer after key processing.
- * If you want to exit layer before key processing, call `disable_layerword()` before returning false.
+ * Returns true to keep Layer Word active, or false to deactivate it
+ * after the key has been processed.
+ * 
+ * To deactivate Layer Word before processing the key, call
+ * disable_layerword() before returning false.
 */
 bool should_continue_layerword(uint8_t layer, uint16_t keycode, keyrecord_t *record);
 

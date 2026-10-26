@@ -128,9 +128,8 @@ void housekeeping_task_oneshots_on_steroids(void) {
 
 // Update the timeout of an OSoS key
 static void set_oneshot_on_steroids_idle_timer(uint16_t keycode, keyrecord_t *record) {
-    if (get_oneshot_on_steroids_timeout(keycode, record)) {
-        idle_timer = (record->event.time + get_oneshot_on_steroids_timeout(keycode, record)) | 1;
-    }
+    uint16_t timeout = get_oneshot_on_steroids_timeout(keycode, record);
+    if (timeout) { idle_timer = (record->event.time + timeout) | 1; }
 }
 #   endif  // OS_STEROIDS_TIMEOUT > 0
 
