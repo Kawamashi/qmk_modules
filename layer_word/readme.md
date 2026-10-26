@@ -128,9 +128,10 @@ You can find my Layer Word configuration [here](https://github.com/Kawamashi/qmk
 You can manipulate Layer Word with these functions:
 
 
-| Function                    | Description                                  | 
-| --------------------------- | -------------------------------------------- | 
-| `get_layerword_layer()`     | Returns the layer of the active Layer Word   | 
-| `enable_layerword(layer)`   | Turns on the Layer Word of `layer`           | 
-| `disable_layerword()`       | Turns off Layer Word                         | 
-| `toggle_layerword(keycode)` | Toggles the Layer Word triggered by `keycode`|
+| Function                    | Description                                                                | 
+| --------------------------- | -------------------------------------------------------------------------- | 
+| `get_layerword_layer()`     | If there is an active Layer Word, returns the layer. Otherwise, returns 0. | 
+| `is_layerword_active()`     | Returns whether a Layer Word is active.                                    |
+| `enable_layerword(layer)`   | Activates Layer Word on the specified layer.                               | 
+| `disable_layerword()`       | Deactivate Layer Word.                                                     | 
+| `toggle_layerword(keycode)` | Toggles Layer Word based on the triggering keycode.                        |
