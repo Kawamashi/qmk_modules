@@ -27,25 +27,21 @@ static uint8_t layerword_layer = 0;
 static bool continue_layerword = false;
 
 #   if LAYERWORD_TIMEOUT > 0
-static uint16_t layerword_start_time = 0;
+static uint16_t idle_timer = 0;
 
 // Layer Words can be configured to deactivate if the keyboard is idle for some time.
 // This is useful to prevent unexpected behaviors.
 // In config.h, define `LAYERWORD_TIMEOUT` with a time in milliseconds.
 void housekeeping_task_layer_word(void) {
-    if (layerword_layer == 0) { return; }
-
-    uint16_t timeout = get_layerword_timeout(layerword_layer);
-    if (timeout > 0 && timer_elapsed(layerword_start_time) > timeout) {
+    if (idle_timer && timer_expired(timer_read(), idle_timer)) {
         disable_layerword();
     }
 }
 
-// Update the Layer Word start time
-static void set_layerword_start_time(uint16_t time_value) {
-    if (get_layerword_timeout(layerword_layer) > 0) {
-        layerword_start_time = time_value;
-    }
+// Update the Layer Word timeout
+static void set_layerword_idle_timer(void) {
+    uint16_t timeout = get_layerword_timeout(layerword_layer);
+    if (timeout) { idle_timer = (timer_read() + timeout) | 1; }
 }
 #   endif  // LAYERWORD_TIMEOUT > 0
 
@@ -77,7 +73,7 @@ void enable_layerword(uint8_t layer) {
     layerword_layer = layer;
     continue_layerword = true;
 #       if LAYERWORD_TIMEOUT > 0
-    set_layerword_start_time(timer_read());
+    set_layerword_idle_timer();
 #       endif  // LAYERWORD_TIMEOUT > 0
 }
   
@@ -85,6 +81,9 @@ void disable_layerword(void) {
     if (layerword_layer == 0) { return; }
     layer_off(layerword_layer);
     layerword_layer = 0;
+#       if LAYERWORD_TIMEOUT > 0
+    idle_timer = 0;
+#       endif  // LAYERWORD_TIMEOUT > 0
 }
 
 void toggle_layerword(uint16_t keycode) {
@@ -170,7 +169,7 @@ bool process_record_layer_word(uint16_t keycode, keyrecord_t *record) {
 
         continue_layerword = should_continue_layerword(layerword_layer, keycode, record);
 #           if LAYERWORD_TIMEOUT > 0
-        if (continue_layerword) { set_layerword_start_time(record->event.time); }
+        if (continue_layerword) { set_layerword_idle_timer(); }
 #           endif  // LAYERWORD_TIMEOUT > 0
 
 #       ifndef NO_ACTION_TAPPING
