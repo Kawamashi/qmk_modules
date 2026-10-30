@@ -70,6 +70,16 @@ typedef enum {
 #    define OS_STEROIDS_TIMEOUT 5000 // Default timeout of 5 seconds.
 #endif
 
+// Returns the internal state of a oneshot
+oneshot_on_steroids_state_t get_oneshot_state(uint8_t index);
+
+// Returns the value of `active_osl_index`
+int8_t get_active_osl_index(void);
+
+// Unregisters the specified modifiers, neutralizing any flashing modifiers first
+// if DUMMY_MOD_NEUTRALIZER_KEYCODE is defined.
+void unregister_mods_on_steroids(uint8_t mods);
+
 // If the keycode is an OSoS key, returns its state
 // Otherwise, returns -1
 int8_t get_oneshot_on_steroids_state(uint16_t keycode);
@@ -81,6 +91,9 @@ uint8_t get_oneshot_layer_on_steroids(void);
 #   if defined OS_STEROIDS_ABSORB_MODS
 // Returns the modifiers absorbed by an OSoS layer key
 uint8_t get_absorbed_mods(void);
+
+// Sets the modifiers absorbed by an OSoS layer key
+void set_absorbed_mods(uint8_t mods);
 #   endif  // OS_STEROIDS_ABSORB_MODS
 
 // Returns whether a keycode is an OSoS key
@@ -94,6 +107,9 @@ bool is_oneshot_mod_on_steroids(uint16_t keycode);
 
 // Returns whether an OSoS layer is active
 bool is_oneshot_layer_on_steroids_active(void);
+
+// Deactivates a specific OSoS key (by index)
+void deactivate_oneshot_on_steroids(int8_t index, bool called_by_user);
 
 // Deactivates a specific OSoS key (by keycode)
 void cancel_oneshot_on_steroids(uint16_t keycode);
@@ -128,7 +144,7 @@ bool should_oneshot_on_steroids_ignore_key(uint16_t keycode, uint16_t trigger, k
 
 // When triggering the one shot effect, define which mods should be released
 // to send one shot mods instead, not to interfere with the mouse.
-// By default, the function returns true if mods include shift or ctrl.
+// By default, Shift and Ctrl are not kept registered after the OSoS key is released.
 bool should_mod_be_held_after_oneshot_release(uint8_t mod, uint16_t keycode);
 
 #   if OS_STEROIDS_TIMEOUT > 0

@@ -46,7 +46,7 @@ bool is_layerword_active(void);
 // Activates Layer Word on the specified layer
 void enable_layerword(uint8_t layer);
 
-// Deactivate Layer Word
+// Deactivates Layer Word
 void disable_layerword(void);
 
 // Toggles Layer Word based on the triggering keycode
