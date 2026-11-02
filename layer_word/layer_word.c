@@ -41,7 +41,11 @@ void housekeeping_task_layer_word(void) {
 // Update the Layer Word timeout
 static void set_layerword_idle_timer(void) {
     uint16_t timeout = get_layerword_timeout(layerword_layer);
-    if (timeout) { idle_timer = (timer_read() + timeout) | 1; }
+    if (timeout) {
+        idle_timer = (timer_read() + timeout) | 1;
+    } else {
+        idle_timer = 0;
+    }
 }
 #   endif  // LAYERWORD_TIMEOUT > 0
 
